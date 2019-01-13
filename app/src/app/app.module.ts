@@ -5,10 +5,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
-const config: SocketIoConfig = { url: '10.212.111.122:3000', options: {}}
+const config: SocketIoConfig = { url: 'localhost:3000', options: {}}
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ const config: SocketIoConfig = { url: '10.212.111.122:3000', options: {}}
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
     SocketIoModule.forRoot(config)
   ],

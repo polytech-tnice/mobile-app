@@ -1,11 +1,18 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      tNice
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <button ion-button full (click)="talk()">Talk to server</button>
+  <button ion-button round (click)="searchGames()">Rechercher les parties</button>
+  <ion-list inset *ngIf="showGames">
+    <ion-item *ngFor="let game of games">
+      <h2>{{ game.getName() }}</h2>
+      <h3>Status: {{ game.getStatus() }}</h3>
+      <p>{{ game.getPlayers()[0].getName() }} vs. {{ game.getPlayers()[1].getName() }}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>
