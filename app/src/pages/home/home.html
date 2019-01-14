@@ -7,12 +7,25 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button round (click)="searchGames()">Rechercher les parties</button>
+  <button ion-button round full (click)="searchGames()">Rechercher les parties</button>
   <ion-list inset *ngIf="showGames">
     <ion-item *ngFor="let game of games">
-      <h2>{{ game.getName() }}</h2>
-      <h3>Status: {{ game.getStatus() }}</h3>
-      <p>{{ game.getPlayers()[0].getName() }} vs. {{ game.getPlayers()[1].getName() }}</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-8>
+            <div class="details">
+              <h2>{{ game.getName() }}</h2>
+              <h3>Status: {{ game.getStatus() }}</h3>
+              <p>{{ game.getPlayers()[0].getName() }} vs. {{ game.getPlayers()[1].getName() }}</p>
+            </div>
+          </ion-col>
+          <ion-col>
+            <button ion-button outline icon-only color="dark" (click)="joinGame(game)">
+              <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
   </ion-list>
 </ion-content>

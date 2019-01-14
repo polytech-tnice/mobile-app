@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Game } from '../../_models/game';
 import { Player } from '../../_models/player';
 import { GameStateEnum } from '../../_models/gameState';
+import { env } from '../../app/environment';
 
 @Component({
   selector: 'page-home',
@@ -31,16 +32,26 @@ export class HomePage {
     this.socket.emit('initGame', JSON.stringify({ game_name: 'Game3', player1_name: 'Jacques', player2_name: 'Yves' }))
     this.socket.emit('initGame', JSON.stringify({ game_name: 'Game4', player1_name: 'Marie', player2_name: 'Erick' }))
     //this.socket.on('sendingGamesEvent', this.updateGamesList);
+    this.socket.on('joinGameSuccessEvent', this.navigateToPage)
+  }
+
+  navigateToPage(obj: any): any {
+    console.log(`Changement de page pour aller vers la partie: ${obj.name}...`);
   }
 
   private searchGames(): void {
     this.games = [];
     this.showGames = true;
-    this.http.get('http://localhost:3000/api/games').subscribe((res: any) => {
+    this.http.get(`${env.baseUrl}:${env.port}/api/games`).subscribe((res: any) => {
       res.games.forEach((game: any) => {
         this.games.push(this.convertToGame(game));
       });
     });
+  }
+
+  private joinGame(game: Game): void {
+    console.log(`Envoi d'event pour joindre une partie...`)
+    this.socket.emit('joinGameEvent', game)
   }
 
   private convertToGame(x: any): Game {
@@ -63,27 +74,7 @@ export class HomePage {
     }
   }
 
-  /*private updateGamesList(param): void {
-    //console.log(param.games);
-    console.log(this.games);
-    param.games.forEach((elt: any) => {
-      this.games.push(elt.name);
-    });
-    console.log(this.games)
-    /*param.games.forEach((game: any) => {
-      this.games.push(game.name);
-    });*/
-  //}
-
-  /*constructor(public navCtrl: NavController, private socket: Socket, private http: HttpClient) {
-    this.socket.connect();
-    this.socket.emit('authentification', 'mobileApp');
-    this.socket.on('success', this.actionAddedCallback);
-    this.socket.on('fail', this.errorCallback);
-    this.socket.on('sendGamesList', this.updateGamesList)
-    this.socket.on('initGameReceived', () => console.log('Game initialized: OK!'))
-  }
-
+  /*
   private actionAddedCallback(param): void {
     console.log(param)
     console.log('Action added!')

@@ -9,8 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { env } from './environment';
 
-const config: SocketIoConfig = { url: 'localhost:3000', options: {}}
+const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
 @NgModule({
   declarations: [
