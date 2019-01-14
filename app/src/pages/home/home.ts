@@ -6,6 +6,7 @@ import { Game } from '../../_models/game';
 import { Player } from '../../_models/player';
 import { GameStateEnum } from '../../_models/gameState';
 import { env } from '../../app/environment';
+import { GamePage } from '../game/game';
 
 @Component({
   selector: 'page-home',
@@ -31,12 +32,8 @@ export class HomePage {
     this.socket.emit('initGame', JSON.stringify({ game_name: 'Game2', player1_name: 'Mark', player2_name: 'Eliott' }))
     this.socket.emit('initGame', JSON.stringify({ game_name: 'Game3', player1_name: 'Jacques', player2_name: 'Yves' }))
     this.socket.emit('initGame', JSON.stringify({ game_name: 'Game4', player1_name: 'Marie', player2_name: 'Erick' }))
-    //this.socket.on('sendingGamesEvent', this.updateGamesList);
-    this.socket.on('joinGameSuccessEvent', this.navigateToPage)
-  }
-
-  navigateToPage(obj: any): any {
-    console.log(`Changement de page pour aller vers la partie: ${obj.name}...`);
+    
+    this.socket.on('joinGameSuccessEvent', (obj) => this.navCtrl.push(GamePage, {game: obj, socketClient: this.socket}));
   }
 
   private searchGames(): void {
@@ -50,7 +47,6 @@ export class HomePage {
   }
 
   private joinGame(game: Game): void {
-    console.log(`Envoi d'event pour joindre une partie...`)
     this.socket.emit('joinGameEvent', game)
   }
 
@@ -62,7 +58,7 @@ export class HomePage {
       const player: Player = new Player(name);
       players.push(player);
     });
-    const state: GameStateEnum = this.convertToGameStateEnum(x.state);
+    const state: GameStateEnum = this.convertToGameStateEnum(x.status);
     return new Game(name, players, state);
   }
 
@@ -73,32 +69,5 @@ export class HomePage {
       case 3: return GameStateEnum.Finished;
     }
   }
-
-  /*
-  private actionAddedCallback(param): void {
-    console.log(param)
-    console.log('Action added!')
-  }
-
-  private errorCallback(param): void {
-    console.log('Failed!')
-  }
-
-  private updateGamesList(param): void {
-    console.log(param);
-    console.log('received games list')
-  }
-
-  private sendWind(): void {
-    this.socket.emit('addWind', JSON.stringify({game_name: 'Game1', speed: 100, direction: 'E'}))
-  }
-
-  private initGame(): void {
-    this.socket.emit('initGame', JSON.stringify({game_name: 'Game1', player1_name: 'Player1', player2_name: 'Player2'}))
-  }
-
-  private findGames(): void {
-    this.socket.emit('listGames');
-  }*/
 
 }

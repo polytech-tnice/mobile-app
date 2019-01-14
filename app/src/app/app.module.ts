@@ -10,13 +10,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { env } from './environment';
+import { GamePage } from '../pages/game/game';
+import { WindEffectGeneratorPage } from '../pages/wind-effect-generator/wind-effect-generator';
 
 const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    GamePage,
+    WindEffectGeneratorPage
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,9 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    GamePage,
+    WindEffectGeneratorPage
   ],
   providers: [
     StatusBar,

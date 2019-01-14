@@ -1,0 +1,37 @@
+<!--
+  Generated template for the WindEffectGeneratorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>WindEffectGenerator</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Ajout d'effets de vent
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label stacked>Vitesse (km/h)</ion-label>
+        <ion-range [(ngModel)]="speed" color="danger" pin="true"></ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Direction</ion-label>
+        <ion-select [(ngModel)]="direction">
+          <ion-option *ngFor="let dir of availableDirections" [value]="dir">{{ dir }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <button ion-button type="submit" block [disabled]="direction === ''" (click)="submit()">Envoyer</button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
