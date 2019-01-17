@@ -28,10 +28,10 @@ export class HomePage {
     // Connect to websocket
     this.socket.connect();
     // Create games - mock
-    this.socket.emit('initGame', JSON.stringify({ game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' }))
-    this.socket.emit('initGame', JSON.stringify({ game_name: 'Game2', player1_name: 'Mark', player2_name: 'Eliott' }))
-    this.socket.emit('initGame', JSON.stringify({ game_name: 'Game3', player1_name: 'Jacques', player2_name: 'Yves' }))
-    this.socket.emit('initGame', JSON.stringify({ game_name: 'Game4', player1_name: 'Marie', player2_name: 'Erick' }))
+    this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' })
+    this.socket.emit('initGame', { game_name: 'Game2', player1_name: 'Mark', player2_name: 'Eliott' })
+    this.socket.emit('initGame', { game_name: 'Game3', player1_name: 'Jacques', player2_name: 'Yves' })
+    this.socket.emit('initGame', { game_name: 'Game4', player1_name: 'Marie', player2_name: 'Erick' })
     
     this.socket.on('joinGameSuccessEvent', (obj) => this.navCtrl.push(GamePage, {game: obj, socketClient: this.socket}));
   }
