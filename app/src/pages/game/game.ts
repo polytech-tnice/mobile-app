@@ -35,6 +35,7 @@ export class GamePage {
     this.actions = [];
     this.socket = this.navParams.get('socketClient');
     this.socket.on('actionAddedSuccessfully', (obj: any) => {
+      console.log('PLOP')
       const action: Action = this.convertToAction(obj);
       this.actions.push(action);
       console.log(this.actions);
