@@ -35,7 +35,7 @@ export class WindEffectGeneratorPage {
     this.speed = 0;
     this.direction = '';
     this.initializeDirectionsArray();
-    this.socket.on('actionAddedSuccessfully', () => {
+    this.socket.on('actionHasBeenAdded', () => {
       const successMsgToast = this.toastCtrl.create({
         message: `L'effet de vent a bien été pris en compte !`,
         duration: 3000,
