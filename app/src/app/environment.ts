@@ -1,4 +1,4 @@
 export const env = {
-    baseUrl: 'http://10.212.109.126',
+    baseUrl: 'http://192.168.56.1',
     port: 3000
 }

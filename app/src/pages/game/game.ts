@@ -5,6 +5,9 @@ import { Player } from '../../_models/player';
 import { GameStateEnum } from '../../_models/gameState';
 import { WindEffectGeneratorPage } from '../wind-effect-generator/wind-effect-generator';
 import { Socket } from 'ng-socket-io';
+import { Action } from '../../_models/actions/action';
+import { WindAction } from '../../_models/actions/wind-action';
+import { Direction } from '../../_models/direction';
 
 /**
  * Generated class for the GamePage page.
@@ -21,6 +24,7 @@ import { Socket } from 'ng-socket-io';
 export class GamePage {
 
   private game: Game;
+  private actions: Action[];
   private socket: Socket;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -28,8 +32,29 @@ export class GamePage {
 
   ionViewDidLoad() {
     this.game = this.convertToGame(this.navParams.get('game'));
+    this.actions = [];
     this.socket = this.navParams.get('socketClient');
-    this.socket.on('actionAddedSuccessfully', (obj) => console.log(obj));
+    this.socket.on('actionAddedSuccessfully', (obj: any) => {
+      const action: Action = this.convertToAction(obj);
+      this.actions.push(action);
+      console.log(this.actions);
+    });
+  }
+
+  private convertToAction(x: any): Action {
+    let action: Action;
+    // When action type is 1 it means that it's a wind action
+    if (x.action.actionType === 1) {
+      action = this.convertToWindAction(x);
+    }
+    return action;
+  }
+
+  private convertToWindAction(x: any): WindAction {
+    const creator: string = x.creator;
+    const speed: number = x.action.speed;
+    const direction: string = x.action.direction;
+    return new WindAction(creator, speed, direction);
   }
 
   private convertToGame(x: any): Game {

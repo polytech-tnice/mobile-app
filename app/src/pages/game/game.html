@@ -18,4 +18,16 @@
     <img src="../../assets/imgs/weather.jpg" />
     <div class="card-title">Effets météo (vent)</div>
   </ion-card>
+  <div *ngIf="actions.length > 0">
+    <ion-list>
+      <ion-list-header>
+        Actions
+      </ion-list-header>
+      <ion-item *ngFor="let action of actions">
+        <h2>{{ action.getTypeAsString() }}</h2>
+        <h3>Action ajoutee par {{ action.creator }}</h3>
+        <div>Vitesse = {{ action.speed }}km/h - Direction = {{ action.direction }}</div>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

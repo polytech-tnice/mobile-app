@@ -30,7 +30,6 @@ export class WindEffectGeneratorPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams.get('socketClient'));
     this.socket = this.navParams.get('socketClient');
     this.game = this.convertToGame(this.navParams.get('game'));
     this.speed = 0;
