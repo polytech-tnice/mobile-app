@@ -5,6 +5,7 @@ import { Player } from '../../_models/player';
 import { GameStateEnum } from '../../_models/gameState';
 import { Direction } from '../../_models/direction';
 import { Socket } from 'ng-socket-io';
+import { Converter } from '../../_helpers/Converter';
 
 /**
  * Generated class for the WindEffectGeneratorPage page.
@@ -31,7 +32,7 @@ export class WindEffectGeneratorPage {
 
   ionViewDidLoad() {
     this.socket = this.navParams.get('socketClient');
-    this.game = this.convertToGame(this.navParams.get('game'));
+    this.game = Converter.convertToGame(this.navParams.get('game'));
     this.speed = 0;
     this.direction = '';
     this.initializeDirectionsArray();
@@ -44,32 +45,11 @@ export class WindEffectGeneratorPage {
     });
   }
 
-  private convertToGame(x: any): Game {
-    const name: string = x.name;
-    const players: Player[] = [];
-    x.players.forEach((elt: any) => {
-      const name: string = elt.name;
-      const player: Player = new Player(name);
-      players.push(player);
-    });
-    const state: GameStateEnum = this.convertToGameStateEnum(x.status);
-    return new Game(name, players, state);
-  }
-
-  private convertToGameStateEnum(x: number): GameStateEnum {
-    switch (x) {
-      case 1: return GameStateEnum.InProgress;
-      case 2: return GameStateEnum.Interupted;
-      case 3: return GameStateEnum.Finished;
-    }
-  }
-
   private initializeDirectionsArray(): void {
     Object.keys(Direction).map(key => this.availableDirections.push(Direction[key]));
   }
 
-  private submit(): void {
-    console.log(`Submit form: speed = ${this.speed} et direction = ${this.direction} pour la partie ${this.game.getName()}`)
+  public submit(): void {
     this.socket.emit('addWindEvent', {
       direction: this.direction,
       speed: this.speed,

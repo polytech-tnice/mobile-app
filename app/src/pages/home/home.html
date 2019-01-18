@@ -15,7 +15,7 @@
           <ion-col col-8>
             <div class="details">
               <h2>{{ game.getName() }}</h2>
-              <h3>Status: {{ game.getStatus() }}</h3>
+              <h3>Status: {{ game.getStatus(true) }}</h3>
               <p>{{ game.getPlayers()[0].getName() }} vs. {{ game.getPlayers()[1].getName() }}</p>
             </div>
           </ion-col>
