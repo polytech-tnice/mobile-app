@@ -26,7 +26,6 @@ export class Converter {
             case 1: return ActionPhaseEnum.CREATION;
             case 2: return ActionPhaseEnum.VOTE;
             case 3: return ActionPhaseEnum.RESULTS;
-            default: return ActionPhaseEnum.RESULTS;
         }
     }
 

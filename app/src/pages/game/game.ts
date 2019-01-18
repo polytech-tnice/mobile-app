@@ -7,6 +7,7 @@ import { Action } from '../../_models/actions/action';
 import { Converter } from '../../_helpers/Converter';
 import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 import { GameStateEnum } from '../../_models/gameState';
+import { Simulator } from '../../_helpers/Simulator';
 
 @IonicPage()
 @Component({
@@ -30,14 +31,24 @@ export class GamePage {
       const action: Action = Converter.convertToAction(obj);
       this.actions.push(action);
     });
+
+    this.socket.on('updateScoreReceived', (obj) => this.updateGameStatus(obj))
+  }
+
+  updateGameStatus(obj: any): any {
+    this.game.status = Converter.convertToGameStateEnum(obj.status);
+    this.game.actionPhase = ActionPhaseEnum.CREATION;
+    this.presentToast('Le point est fini, vous pouvez ajouter des actions!');
   }
 
   public navigateToWindEffectGeneratorPage(): void {
-    if (this.game.status !== GameStateEnum.Interupted) {
+    if ((this.game.status !== GameStateEnum.Interupted && this.game.actionPhase === ActionPhaseEnum.CREATION)) {
       this.presentToast('La partie est en cours, veuillez patienter...');
+      this.socket.emit('updateScore', {game_name: 'Game1'});
       return;
+    } else {
+      this.navCtrl.push(WindEffectGeneratorPage, {game: this.game, socketClient: this.socket});
     }
-    this.navCtrl.push(WindEffectGeneratorPage, {game: this.game, socketClient: this.socket});
   }
 
   private presentToast(msg: string) {

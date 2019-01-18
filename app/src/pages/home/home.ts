@@ -32,7 +32,9 @@ export class HomePage {
     // Create games - mock
     this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });
     this.socket.emit('launchGame', {name: 'Game1'});
-    this.socket.emit('updateScore', {game_name: 'Game1'});
+    // wait 3 seconds and update score
+    //this.socket.emit('updateScore', {game_name: 'Game1'}), 3000;
+    
     // TEST pour le update score
     //this.socket.on('updateScoreReceived', (obj) => console.log(obj));
 
