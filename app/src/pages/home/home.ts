@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { HttpClient } from '@angular/common/http';
@@ -39,7 +39,7 @@ export class HomePage {
     //this.socket.on('updateScoreReceived', (obj) => console.log(obj));
 
     
-    this.socket.on('joinGameEvent_success', (obj) => this.navCtrl.push(GamePage, {game: obj, socketClient: this.socket}));
+    this.socket.on('joinGameEvent_success', (obj) => this.navCtrl.push(GamePage, {game: obj.game, socketClient: this.socket}));
   }
 
   public searchGames(): void {

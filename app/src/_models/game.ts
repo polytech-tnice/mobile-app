@@ -4,7 +4,7 @@ import { ActionPhaseEnum } from "./actions/action-phase-step";
 
 export class Game {
 
-    constructor(private name: string, private players: Player[], public status: GameStateEnum, public actionPhase: ActionPhaseEnum) {}
+    constructor(public name: string, public players: Player[], public status: GameStateEnum, public actionPhase: ActionPhaseEnum) {}
 
     public getName(): string {
         return this.name;

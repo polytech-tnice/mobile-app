@@ -14,20 +14,11 @@
 
 
 <ion-content padding *ngIf="game" class="card-background-page">
-  <ion-card (click)="navigateToWindEffectGeneratorPage(game)"> 
-    <img src="../../assets/imgs/weather.jpg" />
-    <div class="card-title">Effets météo (vent)</div>
-  </ion-card>
-  <div *ngIf="actions.length > 0">
-    <ion-list>
-      <ion-list-header>
-        Actions
-      </ion-list-header>
-      <ion-item *ngFor="let action of actions">
-        <h2>{{ action.getTypeAsString() }}</h2>
-        <h3>Action ajoutee par {{ action.creator }}</h3>
-        <div>Vitesse = {{ action.speed }}km/h - Direction = {{ action.direction }}</div>
-      </ion-item>
-    </ion-list>
+  <div class="action-cards">
+    <ion-card (click)="navigateToWindEffectGeneratorPage(game)">
+      <img src="../../assets/imgs/weather.jpg" />
+      <div class="card-title">Effets météo (vent)</div>
+    </ion-card>
   </div>
+  <action-list *ngIf="actions.length > 0" [actions]="actions" [game]="game" [socket]="socket"></action-list>
 </ion-content>

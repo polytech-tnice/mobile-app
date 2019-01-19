@@ -12,6 +12,7 @@ import { HomePage } from '../pages/home/home';
 import { env } from './environment';
 import { GamePage } from '../pages/game/game';
 import { WindEffectGeneratorPage } from '../pages/wind-effect-generator/wind-effect-generator';
+import { ActionListComponent } from '../components/action-list/action-list';
 
 const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
@@ -20,7 +21,8 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
     MyApp,
     HomePage,
     GamePage,
-    WindEffectGeneratorPage
+    WindEffectGeneratorPage,
+    ActionListComponent
   ],
   imports: [
     BrowserModule,
