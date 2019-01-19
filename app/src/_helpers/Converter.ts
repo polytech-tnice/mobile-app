@@ -47,7 +47,7 @@ export class Converter {
     }
 
     private static convertToWindAction(x: any): WindAction {
-        const creator: string = x.creator;
+        const creator: string = x.action.creatorID;
         const speed: number = x.action.speed;
         const direction: string = x.action.direction;
         return new WindAction(creator, speed, direction);

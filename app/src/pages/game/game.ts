@@ -27,15 +27,18 @@ export class GamePage {
     this.game = this.navParams.get('game');
     this.actions = [];
     this.socket = this.navParams.get('socketClient');
+
     this.socket.on('actionAddedSuccessfully', (obj: any) => {
+      console.log(obj);
       const action: Action = Converter.convertToAction(obj);
       this.actions.push(action);
     });
 
-    this.socket.on('updateScoreReceived', (obj) => this.updateGameStatus(obj))
+    this.socket.on('updateScore_success', (obj) => this.updateGameStatus(obj.params.updatedGame))
   }
 
   updateGameStatus(obj: any): any {
+    console.log(obj);
     this.game.status = Converter.convertToGameStateEnum(obj.status);
     this.game.actionPhase = ActionPhaseEnum.CREATION;
     this.presentToast('Le point est fini, vous pouvez ajouter des actions!');

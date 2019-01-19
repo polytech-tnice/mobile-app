@@ -14,7 +14,7 @@ import { Converter } from '../../_helpers/Converter';
 export class HomePage {
 
   private games: Game[];
-  private showGames: boolean = false;
+  public showGames: boolean = false;
 
   constructor(public navCtrl: NavController, private socket: Socket, private http: HttpClient) {
 
@@ -39,7 +39,7 @@ export class HomePage {
     //this.socket.on('updateScoreReceived', (obj) => console.log(obj));
 
     
-    this.socket.on('joinGameSuccessEvent', (obj) => this.navCtrl.push(GamePage, {game: obj, socketClient: this.socket}));
+    this.socket.on('joinGameEvent_success', (obj) => this.navCtrl.push(GamePage, {game: obj, socketClient: this.socket}));
   }
 
   public searchGames(): void {
