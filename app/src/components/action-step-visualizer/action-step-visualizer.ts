@@ -16,10 +16,11 @@ import { ActionStepHelper } from '../../_helpers/ActionStep';
 })
 export class ActionStepVisualizerComponent implements OnInit {
 
-  @Input() step: ActionPhaseEnum;
-  @Input() stepLabel: string;
-  stepDuration: number;
   @Input() socket: Socket;
+
+  step: ActionPhaseEnum;
+  stepLabel: string;
+  stepDuration: number;
 
   private timer: any;
   private intervalID: any
@@ -29,9 +30,11 @@ export class ActionStepVisualizerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socket.on('actionStepUpdated', (obj) => {
+    this.socket.on('actionStepUpdated', (obj: any) => {
       clearInterval(this.intervalID);
-      this.stepDuration = ActionStepHelper.duration(Converter.convertToActionPhaseEnum(obj.step))
+      this.step = Converter.convertToActionPhaseEnum(obj.step);
+      this.stepLabel = ActionStepHelper.actionStep(this.step);
+      this.stepDuration = ActionStepHelper.duration(this.step);
       this.initTimer(this.stepDuration)
       this.startTimer()
     });

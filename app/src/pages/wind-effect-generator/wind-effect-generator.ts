@@ -6,6 +6,7 @@ import { GameStateEnum } from '../../_models/gameState';
 import { Direction } from '../../_models/direction';
 import { Socket } from 'ng-socket-io';
 import { Converter } from '../../_helpers/Converter';
+import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 
 /**
  * Generated class for the WindEffectGeneratorPage page.
@@ -42,6 +43,11 @@ export class WindEffectGeneratorPage {
         duration: 3000,
       });
       successMsgToast.present();
+    });
+    this.socket.on('actionStepUpdated', (obj: any) => {
+      if (Converter.convertToActionPhaseEnum(obj.step) === ActionPhaseEnum.VOTE) {
+        this.navCtrl.pop();
+      }
     });
   }
 
