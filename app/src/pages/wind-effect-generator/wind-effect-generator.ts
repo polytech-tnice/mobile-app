@@ -44,11 +44,11 @@ export class WindEffectGeneratorPage {
       });
       successMsgToast.present();
     });
-    this.socket.on('actionStepUpdated', (obj: any) => {
+    /*this.socket.on('actionStepUpdated', (obj: any) => {
       if (Converter.convertToActionPhaseEnum(obj.step) === ActionPhaseEnum.VOTE) {
         this.navCtrl.pop();
       }
-    });
+    });*/
   }
 
   private initializeDirectionsArray(): void {

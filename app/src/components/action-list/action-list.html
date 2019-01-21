@@ -9,7 +9,7 @@
           <h3>Params: {{action.getSpeed()}} km/h direction {{action.getDirection()}}</h3>
         </ion-col>
         <ion-col col-2>
-          <button ion-button [disabled]="!canVote()">Voter</button>
+          <button ion-button (click)="vote(action)" [disabled]="!canVote()">Voter</button>
         </ion-col>
       </ion-row>
     </ion-grid>
