@@ -25,8 +25,12 @@ export class Game {
         }
     }
 
-    public getActionPhase(): ActionPhaseEnum {
-        return this.actionPhase;
+    public getActionPhaseStr(): string {
+        switch (this.actionPhase) {
+            case ActionPhaseEnum.CREATION: return "Ajout d'actions";
+            case ActionPhaseEnum.VOTE: return "Vote en cours";
+            case ActionPhaseEnum.RESULTS: return "Affichage des resultats du vote";
+        }
     }
 
 }

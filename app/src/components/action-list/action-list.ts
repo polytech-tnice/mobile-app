@@ -15,7 +15,7 @@ import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
   selector: 'action-list',
   templateUrl: 'action-list.html'
 })
-export class ActionListComponent implements OnInit {
+export class ActionListComponent {
 
   @Input() actions: Action[];
   @Input() game: Game;
@@ -26,17 +26,8 @@ export class ActionListComponent implements OnInit {
     
   }
 
-  ngOnInit() {
-    this.socket.on('changeActionState', (obj) => {
-      console.log(`Ancien state: ${this.game.actionPhase} et nouveau ${Converter.convertToActionPhaseEnum(obj.actionState)}`);
-      console.log(this.canVote())
-      this.game.actionPhase = Converter.convertToActionPhaseEnum(obj.actionState);
-      console.log(this.canVote())
-    })
-  }
-
   vote(): void {
-    this.socket.emit('changeState');
+    console.log('Je vote pour cette action!');
   }
 
   canVote(): boolean {

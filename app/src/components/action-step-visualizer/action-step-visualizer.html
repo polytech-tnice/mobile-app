@@ -1,0 +1,9 @@
+<!-- Generated template for the ActionStepVisualizerComponent component -->
+<ion-card>
+  <ion-card-header>
+    {{stepLabel}}
+  </ion-card-header>
+  <ion-card-content *ngIf="timer">
+    Temps restant: {{timer.currentTime}}s
+  </ion-card-content>
+</ion-card>

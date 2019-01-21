@@ -8,6 +8,7 @@ import { Converter } from '../../_helpers/Converter';
 import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 import { GameStateEnum } from '../../_models/gameState';
 import { HttpClient } from '@angular/common/http';
+import { ActionStepHelper } from '../../_helpers/ActionStep';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,8 @@ export class GamePage {
   private game: Game;
   private actions: Action[];
   private socket: Socket;
+  public step: string;
+  public stepDuration: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient) {
   }
@@ -36,7 +39,15 @@ export class GamePage {
     // TO BE REMOVED... Here for testing
     this.socket.emit('updateScore', {game_name: 'Game1'});
 
-    this.socket.on('updateScore_success', (obj) => this.updateGameStatus(obj.params.updatedGame))
+    this.socket.on('updateScore_success', (obj) => this.updateGameStatus(obj.params.updatedGame));
+
+    this.socket.on('actionStepUpdated', (obj) => this.updateActionPhaseStep(obj));
+  }
+
+  updateActionPhaseStep(obj: any): any {
+    this.game.actionPhase = Converter.convertToActionPhaseEnum(obj.step);
+    this.step = ActionStepHelper.actionStep(this.game.actionPhase);
+    this.stepDuration = ActionStepHelper.duration(this.game.actionPhase);
   }
 
   updateGameStatus(obj: any): any {
@@ -46,8 +57,11 @@ export class GamePage {
   }
 
   public navigateToWindEffectGeneratorPage(): void {
-    if ((this.game.status !== GameStateEnum.Interupted && this.game.actionPhase === ActionPhaseEnum.CREATION)) {
+    if (this.game.status === GameStateEnum.InProgress) {
       this.presentToast('La partie est en cours, veuillez patienter...');
+      return;
+    } else if (this.game.actionPhase !== ActionPhaseEnum.CREATION) {
+      this.presentToast(`Vous ne pouvez plus ajouter d'actions...`);
       return;
     } else {
       this.navCtrl.push(WindEffectGeneratorPage, {game: this.game, socketClient: this.socket});

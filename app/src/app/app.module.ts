@@ -13,6 +13,7 @@ import { env } from './environment';
 import { GamePage } from '../pages/game/game';
 import { WindEffectGeneratorPage } from '../pages/wind-effect-generator/wind-effect-generator';
 import { ActionListComponent } from '../components/action-list/action-list';
+import { ActionStepVisualizerComponent } from '../components/action-step-visualizer/action-step-visualizer';
 
 const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
@@ -22,7 +23,8 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
     HomePage,
     GamePage,
     WindEffectGeneratorPage,
-    ActionListComponent
+    ActionListComponent,
+    ActionStepVisualizerComponent
   ],
   imports: [
     BrowserModule,
