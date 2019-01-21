@@ -3,6 +3,8 @@ import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 import { Socket } from 'ng-socket-io';
 import { Converter } from '../../_helpers/Converter';
 import { ActionStepHelper } from '../../_helpers/ActionStep';
+import { Game } from '../../_models/game';
+import { GameStateEnum } from '../../_models/gameState';
 
 /**
  * Generated class for the ActionStepVisualizerComponent component.
@@ -21,6 +23,7 @@ export class ActionStepVisualizerComponent implements OnInit {
   step: ActionPhaseEnum;
   stepLabel: string;
   stepDuration: number;
+  gameInProgress: boolean;
 
   private timer: any;
   private intervalID: any
@@ -30,11 +33,18 @@ export class ActionStepVisualizerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.stepLabel = ActionStepHelper.actionStep(ActionPhaseEnum.WAITING);
+    this.stepDuration = ActionStepHelper.duration(ActionPhaseEnum.WAITING);
+    
     this.socket.on('actionStepUpdated', (obj: any) => {
       clearInterval(this.intervalID);
       this.step = Converter.convertToActionPhaseEnum(obj.step);
       this.stepLabel = ActionStepHelper.actionStep(this.step);
-      this.stepDuration = ActionStepHelper.duration(this.step);
+      if (this.step !== ActionPhaseEnum.WAITING) {
+        this.stepDuration = ActionStepHelper.duration(this.step);
+      } else {
+        this.stepDuration = -1;
+      }
       this.initTimer(this.stepDuration)
       this.startTimer()
     });

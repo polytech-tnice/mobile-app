@@ -4,11 +4,12 @@
   <ion-item *ngFor="let action of actions">
     <ion-grid>
       <ion-row>
-        <ion-col col-10>
-          <h2>Action de {{action.getCreator()}}</h2>
-          <h3>Params: {{action.getSpeed()}} km/h direction {{action.getDirection()}}</h3>
+        <ion-col col-8>
+          <h2>Action de vent</h2>
+          <h3>Vitesse: {{action.getSpeed()}} km/h</h3>
+          <h3>Direction: {{action.getDirection()}}</h3>
         </ion-col>
-        <ion-col col-2>
+        <ion-col col-4>
           <button ion-button (click)="vote(action)" [disabled]="!canVote()">Voter</button>
         </ion-col>
       </ion-row>

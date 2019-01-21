@@ -43,12 +43,8 @@ export class WindEffectGeneratorPage {
         duration: 3000,
       });
       successMsgToast.present();
+      this.navCtrl.pop();
     });
-    /*this.socket.on('actionStepUpdated', (obj: any) => {
-      if (Converter.convertToActionPhaseEnum(obj.step) === ActionPhaseEnum.VOTE) {
-        this.navCtrl.pop();
-      }
-    });*/
   }
 
   private initializeDirectionsArray(): void {

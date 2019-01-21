@@ -4,6 +4,6 @@
     {{stepLabel}}
   </ion-card-header>
   <ion-card-content *ngIf="timer">
-    Temps restant: {{timer.currentTime}}s
+    <span *ngIf="stepDuration !== -1">Temps restant: {{timer.currentTime}}s</span>
   </ion-card-content>
 </ion-card>

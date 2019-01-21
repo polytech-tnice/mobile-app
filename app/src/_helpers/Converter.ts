@@ -5,6 +5,7 @@ import { Player } from "../_models/player";
 import { Action } from "../_models/actions/action";
 import { WindAction } from "../_models/actions/wind-action";
 import { ActionPhaseEnum } from "../_models/actions/action-phase-step";
+import { ActionType } from "../_models/actions/action-type";
 
 export class Converter {
 
@@ -26,6 +27,7 @@ export class Converter {
             case 1: return ActionPhaseEnum.CREATION;
             case 2: return ActionPhaseEnum.VOTE;
             case 3: return ActionPhaseEnum.RESULTS;
+            case 4: return ActionPhaseEnum.WAITING;
         }
     }
 
@@ -52,5 +54,12 @@ export class Converter {
         const direction: string = x.action.direction;
         return new WindAction(creator, speed, direction);
     }
+
+    public convertActionTypeToString(type: ActionType): string {
+        switch (type) {
+            case ActionType.WIND: return 'Effet de vent';
+            case ActionType.UNKNOWN: return 'Inconnue';
+        }
+    } 
 
 }
