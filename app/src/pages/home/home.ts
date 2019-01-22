@@ -30,8 +30,8 @@ export class HomePage {
 
 
     // Create games - mock
-    this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });
-    this.socket.emit('launchGame', {name: 'Game1'});
+    //this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });
+    //this.socket.emit('launchGame', {name: 'Game1'});
 
     
     this.socket.on('joinGameEvent_success', (obj: any) => this.navCtrl.push(GamePage, {game: obj.game, socketClient: this.socket}));
@@ -65,6 +65,12 @@ export class HomePage {
       duration: 3000
     });
     toast.present();
+  }
+
+  // MOCK
+  startGame() {
+    this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });
+    this.socket.emit('launchGame', {name: 'Game1'});
   }
 
 }

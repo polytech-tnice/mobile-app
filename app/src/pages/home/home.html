@@ -7,6 +7,8 @@
 </ion-header>
 
 <ion-content padding>
+  <!-- Mock -->
+  <button ion-button round full (click)="startGame()">Start</button>
   <button ion-button round full (click)="searchGames()">Rechercher les parties</button>
   <ion-list inset *ngIf="showGames">
     <ion-item *ngFor="let game of games">

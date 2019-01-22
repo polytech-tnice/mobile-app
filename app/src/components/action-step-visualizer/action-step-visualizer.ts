@@ -1,10 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 import { Socket } from 'ng-socket-io';
 import { Converter } from '../../_helpers/Converter';
 import { ActionStepHelper } from '../../_helpers/ActionStep';
 import { Game } from '../../_models/game';
 import { GameStateEnum } from '../../_models/gameState';
+import { Subscription } from 'rxjs/Subscription';
+import { HttpClient } from '@angular/common/http';
+import { env } from '../../app/environment';
 
 /**
  * Generated class for the ActionStepVisualizerComponent component.
@@ -16,9 +19,10 @@ import { GameStateEnum } from '../../_models/gameState';
   selector: 'action-step-visualizer',
   templateUrl: 'action-step-visualizer.html'
 })
-export class ActionStepVisualizerComponent implements OnInit {
+export class ActionStepVisualizerComponent implements OnInit, OnDestroy {
 
   @Input() socket: Socket;
+  @Input() game_name: string;
 
   step: ActionPhaseEnum;
   stepLabel: string;
@@ -26,15 +30,23 @@ export class ActionStepVisualizerComponent implements OnInit {
   gameInProgress: boolean;
 
   private timer: any;
-  private intervalID: any
+  private intervalID: any;
 
-  constructor() {
+  private subscription: Subscription;
+
+  constructor(private http: HttpClient) {
     
   }
 
   ngOnInit() {
-    this.stepLabel = ActionStepHelper.actionStep(ActionPhaseEnum.WAITING);
-    this.stepDuration = ActionStepHelper.duration(ActionPhaseEnum.WAITING);
+
+    this.subscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game_name}/state`).subscribe((obj: any) => {
+      this.step = Converter.convertToActionPhaseEnum(obj.currentStep)
+      this.stepLabel = ActionStepHelper.actionStep(this.step);
+      this.stepDuration = Math.round(obj.remainingTime);
+      this.initTimer(this.stepDuration);
+      this.startTimer();
+    });
     
     this.socket.on('actionStepUpdated', (obj: any) => {
       clearInterval(this.intervalID);
@@ -48,6 +60,10 @@ export class ActionStepVisualizerComponent implements OnInit {
       this.initTimer(this.stepDuration)
       this.startTimer()
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   updateActionPhaseStep(obj: any): any {

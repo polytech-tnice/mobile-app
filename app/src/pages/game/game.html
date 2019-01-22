@@ -14,7 +14,7 @@
 
 
 <ion-content padding *ngIf="game" class="card-background-page">
-  <action-step-visualizer [socket]="socket"></action-step-visualizer> 
+  <action-step-visualizer [socket]="socket" [game_name]="game.name"></action-step-visualizer> 
   <div class="action-cards">
     <ion-card (click)="navigateToWindEffectGeneratorPage(game)">
       <img src="../../assets/imgs/weather.jpg" />
