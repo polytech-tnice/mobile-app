@@ -1,44 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Game } from '../../_models/game';
 import { WindEffectGeneratorPage } from '../wind-effect-generator/wind-effect-generator';
 import { Socket } from 'ng-socket-io';
-import { Action } from '../../_models/actions/action';
 import { Converter } from '../../_helpers/Converter';
 import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 import { GameStateEnum } from '../../_models/gameState';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+import { env } from '../../app/environment';
 
 @IonicPage()
 @Component({
   selector: 'page-game',
   templateUrl: 'game.html',
 })
-export class GamePage {
+export class GamePage implements OnDestroy {
 
   private game: Game;
-  private actions: Action[];
   private socket: Socket;
+  private subscription: Subscription;
+  private actionPhase: ActionPhaseEnum;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient) {
   }
 
   ionViewDidLoad() {
+
     this.game = this.navParams.get('game');
     this.socket = this.navParams.get('socketClient');
-    this.actions = [];
 
-    // TO BE REMOVED... Here for testing
-    //this.socket.emit('updateScore', {game_name: 'Game1'});
+    this.subscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/state`).subscribe((obj: any) => {
+      this.actionPhase = Converter.convertToActionPhaseEnum(obj.currentStep);
+    });
 
-    this.socket.on('updateScore_success', (obj) => this.updateGameStatus(obj.params.updatedGame));
+    this.socket.on('updateScore_success', (obj: any) => {
+      this.actionPhase = Converter.convertToActionPhaseEnum(obj.params.updatedGame.step);
+      this.presentToast('Le point est fini, vous pouvez ajouter des actions!');
+    });
 
     this.socket.on('actionStepUpdated', (obj) => {
-      console.log(obj);
       this.updateActionPhaseStep(obj)
     });
 
     this.socket.on('updateGameState', (obj: any) => this.game.status = Converter.convertToGameStateEnum(obj.state));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   updateActionPhaseStep(obj: any): any {
@@ -52,10 +61,10 @@ export class GamePage {
   }
 
   public navigateToWindEffectGeneratorPage(): void {
-    if (this.game.status === GameStateEnum.InProgress) {
+    if (this.actionPhase === ActionPhaseEnum.WAITING) {
       this.presentToast('La partie est en cours, veuillez patienter...');
       return;
-    } else if (this.game.actionPhase !== ActionPhaseEnum.CREATION) {
+    } else if (this.actionPhase !== ActionPhaseEnum.CREATION) {
       this.presentToast(`Vous ne pouvez plus ajouter d'actions...`);
       return;
     } else {
