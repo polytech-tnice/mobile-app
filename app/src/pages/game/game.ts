@@ -8,7 +8,6 @@ import { Converter } from '../../_helpers/Converter';
 import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
 import { GameStateEnum } from '../../_models/gameState';
 import { HttpClient } from '@angular/common/http';
-import { ActionStepHelper } from '../../_helpers/ActionStep';
 
 @IonicPage()
 @Component({
@@ -28,11 +27,6 @@ export class GamePage {
     this.game = this.navParams.get('game');
     this.socket = this.navParams.get('socketClient');
     this.actions = [];
-
-    this.socket.on('actionAddedSuccessfully', (obj: any) => {
-      const action: Action = Converter.convertToAction(obj);
-      this.actions.push(action);
-    });
 
     // TO BE REMOVED... Here for testing
     //this.socket.emit('updateScore', {game_name: 'Game1'});

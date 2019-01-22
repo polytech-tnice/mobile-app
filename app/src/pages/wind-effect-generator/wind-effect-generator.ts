@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Game } from '../../_models/game';
 import { Player } from '../../_models/player';
@@ -20,7 +20,7 @@ import { ActionPhaseEnum } from '../../_models/actions/action-phase-step';
   selector: 'page-wind-effect-generator',
   templateUrl: 'wind-effect-generator.html',
 })
-export class WindEffectGeneratorPage {
+export class WindEffectGeneratorPage implements OnDestroy {
 
   private game: Game;
   private speed: number;
@@ -37,14 +37,14 @@ export class WindEffectGeneratorPage {
     this.speed = 0;
     this.direction = '';
     this.initializeDirectionsArray();
-    this.socket.on('actionHasBeenAdded', () => {
-      const successMsgToast = this.toastCtrl.create({
-        message: `L'effet de vent a bien été pris en compte !`,
-        duration: 3000,
-      });
-      successMsgToast.present();
-      this.navCtrl.pop();
-    });
+    this.socket.on('actionHasBeenAdded', () => this.successCallback());
+    this.socket.on('stopActionCreation', () => this.navCtrl.pop());
+  }
+
+  ngOnDestroy() {
+    console.log('destruction');
+    this.socket.removeListener('actionHasBeenAdded');
+    this.socket.removeListener('stopActionCreation');
   }
 
   private initializeDirectionsArray(): void {
@@ -57,6 +57,15 @@ export class WindEffectGeneratorPage {
       speed: this.speed,
       gameName: this.game.getName()
     });
+  }
+
+  private successCallback() {
+    const successMsgToast = this.toastCtrl.create({
+      message: `L'effet de vent a bien été pris en compte !`,
+      duration: 3000,
+    });
+    successMsgToast.present();
+    this.navCtrl.pop();
   }
 
 }

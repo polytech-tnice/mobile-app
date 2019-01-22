@@ -22,5 +22,5 @@
     </ion-card>
   </div>
   <span (click)="startActionPhase()">Simuler la fin d'un point...</span>
-  <action-list *ngIf="actions.length > 0" [actions]="actions" [game]="game" [socket]="socket"></action-list>
+  <action-list [game]="game" [socket]="socket"></action-list>
 </ion-content>

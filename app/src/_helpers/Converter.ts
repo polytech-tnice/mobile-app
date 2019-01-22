@@ -42,16 +42,16 @@ export class Converter {
     public static convertToAction(x: any): Action {
         let action: Action;
         // When action type is 1 it means that it's a wind action
-        if (x.action.actionType === 1) {
+        if (x.actionType === 1) {
             action = this.convertToWindAction(x);
         }
         return action;
     }
 
     private static convertToWindAction(x: any): WindAction {
-        const creator: string = x.action.creatorID;
-        const speed: number = x.action.speed;
-        const direction: string = x.action.direction;
+        const creator: string = x.creatorID;
+        const speed: number = x.speed;
+        const direction: string = x.direction;
         return new WindAction(creator, speed, direction);
     }
 
