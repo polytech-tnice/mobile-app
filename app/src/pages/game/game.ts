@@ -48,6 +48,11 @@ export class GamePage implements OnDestroy {
       this.game.lastExecutedAction = Converter.convertToAction(obj.action);
       this.presentToast(`Action pour le prochain point: vent - ${obj.action.direction} - ${obj.action.speed}km/h`);
     });
+
+    this.socket.on('fail_resultOfVoteEvent', () => {
+      this.game.lastExecutedAction = null;
+      this.presentToast(`Aucune action pour cette fois... `);
+    });
   }
 
   ngOnDestroy() {

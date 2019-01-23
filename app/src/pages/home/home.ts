@@ -30,9 +30,6 @@ export class HomePage {
     
     this.socket.on('joinGameEvent_success', (obj: any) => this.navCtrl.push(GamePage, {game: obj.game, socketClient: this.socket}));
 
-    this.socket.on('fail_resultOfVoteEvent', () => {
-      this.presentToast(`Aucune action pour cette fois... `);
-    });
   }
 
   public searchGames(): void {
