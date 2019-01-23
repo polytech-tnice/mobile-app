@@ -21,12 +21,12 @@
     <ion-card-content>
       <ion-item>
         <ion-label stacked>Vitesse (km/h)</ion-label>
-        <ion-range [(ngModel)]="speed" color="danger" pin="true"></ion-range>
+        <ion-range [(ngModel)]="speed" color="danger" pin="true" [min]="minSpeed" [max]="maxSpeed"></ion-range>
       </ion-item>
       <ion-item>
         <ion-label stacked>Direction</ion-label>
         <ion-select [(ngModel)]="direction">
-          <ion-option *ngFor="let dir of availableDirections" [value]="dir">{{ dir }}</ion-option>
+          <ion-option *ngFor="let dir of availableDirections" [value]="dir" [disabled]="dir === disabledDirection">{{ dir }}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
