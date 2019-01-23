@@ -42,7 +42,6 @@ export class WindEffectGeneratorPage implements OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destruction');
     this.socket.removeListener('actionHasBeenAdded');
     this.socket.removeListener('stopActionCreation');
   }

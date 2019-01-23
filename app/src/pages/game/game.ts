@@ -20,7 +20,6 @@ export class GamePage implements OnDestroy {
   private game: Game;
   private socket: Socket;
   private subscription: Subscription;
-  private actionPhase: ActionPhaseEnum;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient) {
   }
@@ -31,11 +30,11 @@ export class GamePage implements OnDestroy {
     this.socket = this.navParams.get('socketClient');
 
     this.subscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/state`).subscribe((obj: any) => {
-      this.actionPhase = Converter.convertToActionPhaseEnum(obj.currentStep);
+      this.game.actionPhase = Converter.convertToActionPhaseEnum(obj.currentStep);
     });
 
     this.socket.on('updateScore_success', (obj: any) => {
-      this.actionPhase = Converter.convertToActionPhaseEnum(obj.params.updatedGame.step);
+      this.game.actionPhase = Converter.convertToActionPhaseEnum(obj.params.updatedGame.step);
       this.presentToast('Le point est fini, vous pouvez ajouter des actions!');
     });
 
@@ -44,6 +43,11 @@ export class GamePage implements OnDestroy {
     });
 
     this.socket.on('updateGameState', (obj: any) => this.game.status = Converter.convertToGameStateEnum(obj.state));
+
+    this.socket.on('resultOfVoteEvent', (obj: any) => {
+      this.game.lastExecutedAction = Converter.convertToAction(obj.action);
+      this.presentToast(`Action pour le prochain point: vent - ${obj.action.direction} - ${obj.action.speed}km/h`);
+    });
   }
 
   ngOnDestroy() {
@@ -61,14 +65,22 @@ export class GamePage implements OnDestroy {
   }
 
   public navigateToWindEffectGeneratorPage(): void {
-    if (this.actionPhase === ActionPhaseEnum.WAITING) {
+    // Check conditions about phase step in progress...
+    if (this.game.actionPhase === ActionPhaseEnum.WAITING) {
       this.presentToast('La partie est en cours, veuillez patienter...');
       return;
-    } else if (this.actionPhase !== ActionPhaseEnum.CREATION) {
+    } else if (this.game.actionPhase !== ActionPhaseEnum.CREATION) {
       this.presentToast(`Vous ne pouvez plus ajouter d'actions...`);
       return;
     } else {
-      this.navCtrl.push(WindEffectGeneratorPage, {game: this.game, socketClient: this.socket});
+      // Check that the user is not the one who "won" the last action phase
+      const userSocketID = this.socket.ioSocket.id;
+      const creatorIDForLastExecutedAction = (this.game.lastExecutedAction) ? this.game.lastExecutedAction.getCreator() : '';
+      if (userSocketID === creatorIDForLastExecutedAction) {
+        this.presentToast(`Votre avez gagné la dernière phase d'action, laissez une chance aux autres joueurs pour ce tour !`);
+        return;
+      }
+      this.navCtrl.push(WindEffectGeneratorPage, { game: this.game, socketClient: this.socket });
     }
   }
 
@@ -81,7 +93,7 @@ export class GamePage implements OnDestroy {
   }
 
   startActionPhase() {
-    this.socket.emit('updateScore', {game_name: 'Game1'});
+    this.socket.emit('updateScore', { game_name: 'Game1' });
   }
 
 }

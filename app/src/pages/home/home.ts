@@ -27,18 +27,8 @@ export class HomePage {
     // Connect to websocket
     this.socket.connect();
     this.socket.emit('authentication', {name: 'mobileApp'});
-
-
-    // Create games - mock
-    //this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });
-    //this.socket.emit('launchGame', {name: 'Game1'});
-
     
     this.socket.on('joinGameEvent_success', (obj: any) => this.navCtrl.push(GamePage, {game: obj.game, socketClient: this.socket}));
-
-    this.socket.on('resultOfVoteEvent', (obj: any) => {
-      this.presentToast(`Action pour le prochain point: vent - ${obj.action.direction} - ${obj.action.speed}km/h`);
-    });
 
     this.socket.on('fail_resultOfVoteEvent', () => {
       this.presentToast(`Aucune action pour cette fois... `);

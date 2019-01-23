@@ -1,10 +1,15 @@
 import { Player } from "./player";
 import { GameStateEnum } from "./gameState";
 import { ActionPhaseEnum } from "./actions/action-phase-step";
+import { Action } from "./actions/action";
 
 export class Game {
 
-    constructor(public name: string, public players: Player[], public status: GameStateEnum, public actionPhase: ActionPhaseEnum) {}
+    public lastExecutedAction: Action;
+
+    constructor(public name: string, public players: Player[], public status: GameStateEnum, public actionPhase: ActionPhaseEnum) {
+        this.lastExecutedAction = null;
+    }
 
     public getName(): string {
         return this.name;
@@ -13,8 +18,6 @@ export class Game {
     public getPlayers(): Player[] {
         return this.players;
     }
-
-    
 
     public getStatus(): string {
         switch (this.status) {
