@@ -54,7 +54,6 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
     this.socket.on('actionHasBeenAdded', () => this.successCallback());
     this.socket.on('stopActionCreation', () => this.navCtrl.pop());
     this.lastActionSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/last_executed_action`).subscribe((obj: any) => {
-      console.log(obj);
       const DEFAULT_MAX_SPEED = 100;
       const DEFAULT_MIN_SPEED = 0;
       if (obj.lastExecutedAction) {
@@ -84,8 +83,6 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
         this.availableDirections.push(DirectionUtil.directionLabel(Number(dir)));
       }
     }
-    //Object.keys(Direction).filter(key => this.availableDirections.push(Direction[key]));
-    console.log(this.availableDirections);
   }
 
   public submit(): void {

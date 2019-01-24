@@ -21,6 +21,6 @@
       <div class="card-title">Effets météo (vent)</div>
     </ion-card>
   </div>
-  <span (click)="startActionPhase()">Simuler la fin d'un point...</span>
+  <span *ngIf="game.actionPhase === 3" (click)="startActionPhase()">Simuler la fin d'un point...</span>
   <action-list [game]="game" [socket]="socket"></action-list>
 </ion-content>

@@ -56,7 +56,7 @@ export class GamePage implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   updateActionPhaseStep(obj: any): any {

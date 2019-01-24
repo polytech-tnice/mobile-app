@@ -46,14 +46,6 @@ export class HomePage {
     this.socket.emit('joinGameEvent', game)
   }
 
-  private presentToast(msg: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 3000
-    });
-    toast.present();
-  }
-
   // MOCK
   startGame() {
     this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });

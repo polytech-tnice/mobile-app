@@ -50,8 +50,8 @@ export class ActionListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.voteSubscription.unsubscribe();
-    this.actionListSubscription.unsubscribe();
+    if (this.voteSubscription) this.voteSubscription.unsubscribe();
+    if (this.actionListSubscription) this.actionListSubscription.unsubscribe();
   }
 
   vote(action: Action): void {

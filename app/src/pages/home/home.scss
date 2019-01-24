@@ -1,14 +1,18 @@
-/*.content {
+.logo {
+    width: 50%;
+    margin: auto;
+    padding: 10px;
+}
+
+q {
+    margin-top: 0.7em;
+    font-size: 1.3em;
+    margin-bottom: 12px;
+}
+
+.header {
     display: flex;
-    flex-direction: row;
+    flex-flow: column;
+    text-align: center;
+    margin-bottom: 22px;
 }
-
-.details {
-    width: 75%;
-    padding-top: 8px;
-    padding-bottom: 5px;
-}
-
-.actions {
-    width: 25%;
-}*/
