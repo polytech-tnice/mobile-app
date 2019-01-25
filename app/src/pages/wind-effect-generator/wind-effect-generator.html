@@ -21,7 +21,7 @@
     <ion-card-content>
       <ion-item>
         <ion-label stacked>Vitesse (km/h)</ion-label>
-        <ion-range [(ngModel)]="speed" color="danger" pin="true" [min]="minSpeed" [max]="maxSpeed"></ion-range>
+        <ion-range [(ngModel)]="speed" color="danger" pin="true" [min]="minSpeed" [max]="maxSpeed" (ionChange)="changeSpeed()"></ion-range>
       </ion-item>
       <ion-item>
         <ion-label stacked>Direction</ion-label>
@@ -34,4 +34,5 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+  <windsock></windsock>
 </ion-content>

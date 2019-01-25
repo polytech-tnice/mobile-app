@@ -11,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { env } from '../../app/environment';
 import { DirectionUtil } from '../../_models/direction-util';
+import { WindEffectProvider } from '../../providers/wind-effect/wind-effect';
+import { WindForceEnum } from '../../_models/actions/wind-force';
 
 /**
  * Generated class for the WindEffectGeneratorPage page.
@@ -38,7 +40,8 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
   minSpeed: number;
   disabledDirection: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, private http: HttpClient) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, 
+    private http: HttpClient, private windEffectProvider: WindEffectProvider) {
   }
 
   ionViewDidLoad() {
@@ -68,13 +71,18 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
         this.maxSpeed = DEFAULT_MAX_SPEED;
         this.disabledDirection = '';
       }
-    })
+    });
+    this.windEffectProvider.setCurrentSpeed(this.speed);
   }
 
   ngOnDestroy() {
     this.socket.removeListener('actionHasBeenAdded');
     this.socket.removeListener('stopActionCreation');
     this.lastActionSubscription.unsubscribe();
+  }
+
+  public changeSpeed(): void {
+    this.windEffectProvider.feedSpeedSubject(this.speed);
   }
 
   private initializeDirectionsArray(): void {

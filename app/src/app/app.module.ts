@@ -14,6 +14,8 @@ import { GamePage } from '../pages/game/game';
 import { WindEffectGeneratorPage } from '../pages/wind-effect-generator/wind-effect-generator';
 import { ActionListComponent } from '../components/action-list/action-list';
 import { ActionStepVisualizerComponent } from '../components/action-step-visualizer/action-step-visualizer';
+import { WindsockComponent } from '../components/windsock/windsock';
+import { WindEffectProvider } from '../providers/wind-effect/wind-effect';
 
 const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
@@ -24,7 +26,8 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
     GamePage,
     WindEffectGeneratorPage,
     ActionListComponent,
-    ActionStepVisualizerComponent
+    ActionStepVisualizerComponent,
+    WindsockComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    WindEffectProvider
   ]
 })
 export class AppModule {}

@@ -70,6 +70,7 @@ export class GamePage implements OnDestroy {
   }
 
   public navigateToWindEffectGeneratorPage(): void {
+    
     // Check conditions about phase step in progress...
     if (this.game.actionPhase === ActionPhaseEnum.WAITING) {
       this.presentToast('La partie est en cours, veuillez patienter...');
@@ -87,6 +88,8 @@ export class GamePage implements OnDestroy {
       }
       this.navCtrl.push(WindEffectGeneratorPage, { game: this.game, socketClient: this.socket });
     }
+    
+   //this.navCtrl.push(WindEffectGeneratorPage, { game: this.game, socketClient: this.socket });
   }
 
   private presentToast(msg: string) {
