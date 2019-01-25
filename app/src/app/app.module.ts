@@ -16,6 +16,7 @@ import { ActionListComponent } from '../components/action-list/action-list';
 import { ActionStepVisualizerComponent } from '../components/action-step-visualizer/action-step-visualizer';
 import { WindsockComponent } from '../components/windsock/windsock';
 import { WindEffectProvider } from '../providers/wind-effect/wind-effect';
+import { CompassComponent } from '../components/compass/compass';
 
 const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
@@ -27,7 +28,8 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
     WindEffectGeneratorPage,
     ActionListComponent,
     ActionStepVisualizerComponent,
-    WindsockComponent
+    WindsockComponent,
+    CompassComponent 
   ],
   imports: [
     BrowserModule,

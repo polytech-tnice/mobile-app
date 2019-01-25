@@ -14,25 +14,39 @@
 
 
 <ion-content padding>
-  <ion-card>
-    <ion-card-header>
-      Ajout d'effets de vent
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label stacked>Vitesse (km/h)</ion-label>
-        <ion-range [(ngModel)]="speed" color="danger" pin="true" [min]="minSpeed" [max]="maxSpeed" (ionChange)="changeSpeed()"></ion-range>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>Direction</ion-label>
-        <ion-select [(ngModel)]="direction">
-          <ion-option *ngFor="let dir of availableDirections" [value]="dir" [disabled]="dir === disabledDirection">{{ dir }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <button ion-button type="submit" block [disabled]="direction === ''" (click)="submit()">Envoyer</button>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-  <windsock></windsock>
+  <ion-grid>
+    <ion-row justify-content-start>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            Ajout d'effets de vent
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label stacked>Vitesse (km/h)</ion-label>
+              <ion-range [(ngModel)]="speed" color="danger" pin="true" [min]="minSpeed" [max]="maxSpeed" (ionChange)="changeSpeed()"></ion-range>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked>Direction</ion-label>
+              <ion-select [(ngModel)]="direction" (ionChange)="changeDirection()">
+                <ion-option *ngFor="let dir of availableDirections" [value]="dir" [disabled]="dir === disabledDirection">{{ dir }}</ion-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <button ion-button type="submit" block [disabled]="direction === ''" (click)="submit()">Envoyer</button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-start>
+      <ion-col size="3">
+        <windsock></windsock>
+      </ion-col>
+      <ion-col size="3">
+        <compass></compass>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

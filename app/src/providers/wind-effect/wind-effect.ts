@@ -18,11 +18,18 @@ export class WindEffectProvider {
   private _speedSubject: Subject<number> = new Subject<number>();
   public speedObservable$: Observable<number> = this._speedSubject.asObservable();
 
+  private _directionSubject: Subject<string> = new Subject<string>();
+  public directionObservable$: Observable<string> = this._directionSubject.asObservable();
+
   constructor(public http: HttpClient) {
   }
 
   public feedSpeedSubject(speed: number): void {
     this._speedSubject.next(speed);
+  }
+
+  public feedDirectionSubject(direction: string): void {
+    this._directionSubject.next(direction);
   }
 
   public setCurrentSpeed(speed: number): void {

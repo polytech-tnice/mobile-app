@@ -85,6 +85,10 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
     this.windEffectProvider.feedSpeedSubject(this.speed);
   }
 
+  public changeDirection(): void {
+    this.windEffectProvider.feedDirectionSubject(this.direction);
+  }
+
   private initializeDirectionsArray(): void {
     for (let dir in Direction) {
       if (!isNaN(Number(dir))) {

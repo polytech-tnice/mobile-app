@@ -1,0 +1,21 @@
+<svg height="150" width="150">
+  <circle cx="80" cy="75" r="60" stroke="black" stroke-width="3" fill="rgb(234, 231, 237)" />
+  <circle cx="80" cy="75" r="5" fill="black" />
+  <text x="75" y="30" fill="black">N</text>
+  <text x="75" y="128" fill="black">S</text>
+  <text x="125" y="80" fill="black">E</text>
+  <text x="25" y="80" fill="black">O</text>
+  <!-- Direction vers le nord -->
+  <line *ngIf="direction === 0" x1="80" y1="40" x2="80" y2="55" style="stroke:rgb(200,0,0);stroke-width:2.5" />
+  <line *ngIf="direction === 0" x1="80" y1="55" x2="80" y2="110" style="stroke:rgb(0,0,0);stroke-width:2.5" />-->
+
+  <!-- Direction vers le sud -->
+  <line *ngIf="direction === 1" x1="80" y1="95" x2="80" y2="110" style="stroke:rgb(200,0,0);stroke-width:2.5" />
+  <line *ngIf="direction === 1" x1="80" y1="40" x2="80" y2="95" style="stroke:rgb(0,0,0);stroke-width:2.5" />
+  <!-- Direction vers l'ouest -->
+  <line *ngIf="direction === 3" x1="55" y1="75" x2="115" y2="75" style="stroke:rgb(0,0,0);stroke-width:2.5"/>
+  <line *ngIf="direction === 3" x1="40" y1="75" x2="55" y2="75" style="stroke:rgb(200,0,0);stroke-width:2.5"/>
+  <!-- Direction vers l'est -->
+  <line *ngIf="direction === 2" x1="45" y1="75" x2="95" y2="75" style="stroke:rgb(0,0,0);stroke-width:2.5" />
+  <line *ngIf="direction === 2" x1="95" y1="75" x2="110" y2="75" style="stroke:rgb(200,0,0);stroke-width:2.5" />
+</svg>
