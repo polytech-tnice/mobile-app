@@ -35,6 +35,8 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
   private socket: Socket;
 
   private lastActionSubscription: Subscription;
+  private directionSubscription: Subscription;
+  private speedSubscription: Subscription;
 
   maxSpeed: number;
   minSpeed: number;
@@ -73,12 +75,20 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
       }
     });
     this.windEffectProvider.setCurrentSpeed(this.speed);
+    this.directionSubscription = this.windEffectProvider.directionObservable$.subscribe((dir: string) => {
+      this.direction = dir;
+    });
+    this.speedSubscription = this.windEffectProvider.speedObservable$.subscribe((speed: number) => {
+      this.speed = speed;
+    });
   }
 
   ngOnDestroy() {
     this.socket.removeListener('actionHasBeenAdded');
     this.socket.removeListener('stopActionCreation');
     this.lastActionSubscription.unsubscribe();
+    this.directionSubscription.unsubscribe();
+    this.speedSubscription.unsubscribe();
   }
 
   public changeSpeed(): void {

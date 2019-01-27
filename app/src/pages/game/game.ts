@@ -89,6 +89,7 @@ export class GamePage implements OnDestroy {
       this.navCtrl.push(WindEffectGeneratorPage, { game: this.game, socketClient: this.socket });
     }
     
+    // Only for test...
     //this.navCtrl.push(WindEffectGeneratorPage, { game: this.game, socketClient: this.socket });
   }
 

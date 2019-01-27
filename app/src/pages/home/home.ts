@@ -7,14 +7,19 @@ import { env } from '../../app/environment';
 import { GamePage } from '../game/game';
 import { Converter } from '../../_helpers/Converter';
 
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage implements OnDestroy {
 
   private games: Game[];
   public showGames: boolean = false;
+
+  public x: any;
+  public y: any;
+  public z: any;
 
   constructor(public navCtrl: NavController, private socket: Socket, private http: HttpClient, private toastCtrl: ToastController) {
 
@@ -26,9 +31,14 @@ export class HomePage {
     this.showGames = false;
     // Connect to websocket
     this.socket.connect();
-    this.socket.emit('authentication', {name: 'mobileApp'});
+    this.socket.emit('authentication', { name: 'mobileApp' });
+
+    this.socket.on('joinGameEvent_success', (obj: any) => this.navCtrl.push(GamePage, { game: obj.game, socketClient: this.socket }));
+
     
-    this.socket.on('joinGameEvent_success', (obj: any) => this.navCtrl.push(GamePage, {game: obj.game, socketClient: this.socket}));
+  }
+
+  ngOnDestroy() {
 
   }
 
@@ -49,7 +59,7 @@ export class HomePage {
   // MOCK
   startGame() {
     this.socket.emit('initGame', { game_name: 'Game1', player1_name: 'John', player2_name: 'Jane' });
-    this.socket.emit('launchGame', {name: 'Game1'});
+    this.socket.emit('launchGame', { name: 'Game1' });
   }
 
 }

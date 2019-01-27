@@ -2,6 +2,9 @@ import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { WindEffectProvider } from '../../providers/wind-effect/wind-effect';
 import { Subscription } from 'rxjs/Subscription';
 import { WindForceEnum, WindForceUtil } from '../../_models/actions/wind-force';
+import { Point, PointUtil } from '../../_models/geometry/point';
+import { Direction } from '../../_models/direction';
+import { DirectionUtil } from '../../_models/direction-util';
 
 /**
  * Generated class for the WindsockComponent component.
@@ -18,6 +21,18 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
   canvas: any;
   context: any;
   windSpeedSubscription: Subscription;
+  speed: number;
+
+  private touchzone: any;
+
+  public origin: Point = null;
+  public destination: Point = null;
+
+  private xOrigin: any;
+  private yOrigin: any;
+
+  private xDestination: any;
+  private yDestination: any;
 
   constructor(private windEffectService: WindEffectProvider) {
     
@@ -25,8 +40,29 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.windSpeedSubscription = this.windEffectService.speedObservable$.subscribe((speed: number) => {
+      this.speed = speed;
       this.updateCanvas(speed);
     });
+    this.touchzone = document.getElementById("windsock");
+    this.touchzone.addEventListener("touchstart", (event: any) => {
+      event.preventDefault();
+      this.xOrigin = event.touches[0].clientX;
+      this.yOrigin = event.touches[0].clientY;
+    }, false);
+    this.touchzone.addEventListener("touchend", () => {
+      this.origin = new Point(this.xOrigin, this.yOrigin);
+      this.destination = new Point(this.xDestination, this.yDestination);
+
+      // For the speed part... do swipes to the right to add wind, and to the left to remove wind (ex: 1 tick = 5km/h)
+      const speedDif: number = PointUtil.computeSpeed(this.origin, this.destination);
+      this.windEffectService.feedSpeedSubject(speedDif);
+
+    }, false);
+    this.touchzone.addEventListener("touchmove", (event: any) => {
+      event.preventDefault();
+      this.xDestination = event.touches[0].clientX;
+      this.yDestination = event.touches[0].clientY;
+    }, false);
   }
 
   ngOnDestroy(): void {

@@ -14,6 +14,8 @@ import { Observable } from 'rxjs/Observable';
 export class WindEffectProvider {
 
   private speed: number;
+  private MAX = 100;
+  private MIN = 0;
 
   private _speedSubject: Subject<number> = new Subject<number>();
   public speedObservable$: Observable<number> = this._speedSubject.asObservable();
@@ -22,10 +24,13 @@ export class WindEffectProvider {
   public directionObservable$: Observable<string> = this._directionSubject.asObservable();
 
   constructor(public http: HttpClient) {
+    this.speed = 0;
   }
 
   public feedSpeedSubject(speed: number): void {
-    this._speedSubject.next(speed);
+    if (!((this.speed === this.MAX && speed > 0) || (this.speed === this.MIN && speed < 0))) this.speed += speed;
+    this._speedSubject.next(this.speed);
+    //this._speedSubject.next(speed);
   }
 
   public feedDirectionSubject(direction: string): void {

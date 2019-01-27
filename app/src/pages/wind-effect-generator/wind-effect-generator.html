@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <ion-grid>
-    <ion-row justify-content-start>
+    <!--<ion-row justify-content-start>
       <ion-col>
         <ion-card>
           <ion-card-header>
@@ -38,7 +38,11 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row>
+    </ion-row>-->
+    <!--<ion-row>
+      <tactile-wind-generator></tactile-wind-generator>
+    </ion-row>-->
+
     <ion-row justify-content-start>
       <ion-col size="3">
         <windsock></windsock>
@@ -46,6 +50,17 @@
       <ion-col size="3">
         <compass></compass>
       </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-card>
+        <ion-card-header>
+          <h1>Vitesse: {{speed}}km/h</h1>
+          <h1>Direction: {{direction}}</h1>
+        </ion-card-header>
+      </ion-card>
+    </ion-row>
+    <ion-row>
+      <button ion-button block [disabled]="direction === ''" (click)="submit()">Envoyer</button>
     </ion-row>
   </ion-grid>
 
