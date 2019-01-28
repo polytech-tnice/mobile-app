@@ -14,8 +14,11 @@ import { Observable } from 'rxjs/Observable';
 export class WindEffectProvider {
 
   private speed: number;
-  private MAX = 100;
-  private MIN = 0;
+  private maxSpeed = 100;
+  private minSpeed = 0;
+
+  // Set the disable direction
+  private disabledDir = null;
 
   private _speedSubject: Subject<number> = new Subject<number>();
   public speedObservable$: Observable<number> = this._speedSubject.asObservable();
@@ -28,7 +31,7 @@ export class WindEffectProvider {
   }
 
   public feedSpeedSubject(speed: number): void {
-    if (!((this.speed === this.MAX && speed > 0) || (this.speed === this.MIN && speed < 0))) this.speed += speed;
+    if (!((this.speed === this.maxSpeed && speed > 0) || (this.speed === this.minSpeed && speed < 0))) this.speed += speed;
     this._speedSubject.next(this.speed);
     //this._speedSubject.next(speed);
   }
@@ -43,6 +46,30 @@ export class WindEffectProvider {
 
   public getCurrentSpeed(): number {
     return this.speed;
+  }
+
+  public setDisabledDir(dir: string): void {
+    this.disabledDir = dir;
+  }
+
+  public getDisabledDir(): string {
+    return this.disabledDir;
+  }
+
+  public getMaxSpeed() {
+    return this.maxSpeed;
+  }
+
+  public setMaxSpeed(n: number) {
+    this.maxSpeed = n;
+  }
+
+  public getMinSpeed() {
+    return this.minSpeed;
+  }
+
+  public setMinSpeed(n: number) {
+    this.minSpeed = n;
   }
 
 }

@@ -5,6 +5,7 @@ import { WindForceEnum, WindForceUtil } from '../../_models/actions/wind-force';
 import { Point, PointUtil } from '../../_models/geometry/point';
 import { Direction } from '../../_models/direction';
 import { DirectionUtil } from '../../_models/direction-util';
+import { ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the WindsockComponent component.
@@ -34,7 +35,7 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
   private xDestination: any;
   private yDestination: any;
 
-  constructor(private windEffectService: WindEffectProvider) {
+  constructor(private windEffectService: WindEffectProvider, private toastCtrl: ToastController) {
     
   }
 
@@ -55,7 +56,33 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
 
       // For the speed part... do swipes to the right to add wind, and to the left to remove wind (ex: 1 tick = 5km/h)
       const speedDif: number = PointUtil.computeSpeed(this.origin, this.destination);
-      this.windEffectService.feedSpeedSubject(speedDif);
+      const currentSpeed = this.windEffectService.getCurrentSpeed();
+      const minSpeed = this.windEffectService.getMinSpeed();
+      const maxSpeed = this.windEffectService.getMaxSpeed();
+
+      if (speedDif < 0) {
+        if ((speedDif + currentSpeed) < minSpeed) {
+          const successMsgToast = this.toastCtrl.create({
+            message: `Vous ne pouvez plus diminuer la vitesse !`,
+            duration: 1500,
+          });
+          successMsgToast.present();
+        } else {
+          this.windEffectService.feedSpeedSubject(speedDif);
+        }
+      } else {
+        if ((speedDif + currentSpeed) > maxSpeed) {
+          const successMsgToast = this.toastCtrl.create({
+            message: `Vous ne pouvez plus augmenter la vitesse !`,
+            duration: 1500,
+          });
+          successMsgToast.present();
+        } else {
+          this.windEffectService.feedSpeedSubject(speedDif);
+        }
+      }
+
+      
 
     }, false);
     this.touchzone.addEventListener("touchmove", (event: any) => {

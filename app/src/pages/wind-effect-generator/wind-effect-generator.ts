@@ -62,17 +62,26 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
       const DEFAULT_MAX_SPEED = 100;
       const DEFAULT_MIN_SPEED = 0;
       if (obj.lastExecutedAction) {
-        const DELTA: number = 15;
+        const DELTA: number = 20; 
         const min: number = obj.lastExecutedAction.speed - DELTA;
         const max: number = obj.lastExecutedAction.speed + DELTA;
         this.minSpeed = (min < 0) ? 0 : min;
         this.maxSpeed = (max > 100) ? 100 : max;
         this.disabledDirection = DirectionUtil.directionLabel(DirectionUtil.opposite(DirectionUtil.direction(obj.lastExecutedAction.direction)));
+        // Initialize the default speed with the one given at the last action
+        this.windEffectProvider.feedSpeedSubject(obj.lastExecutedAction.speed);
+        // Same for the direction
+        this.windEffectProvider.feedDirectionSubject(obj.lastExecutedAction.direction);        
       } else {
         this.minSpeed = DEFAULT_MIN_SPEED;
         this.maxSpeed = DEFAULT_MAX_SPEED;
         this.disabledDirection = '';
       }
+      // Set the disable dir
+      this.windEffectProvider.setDisabledDir(this.disabledDirection);
+      // Set the max/min speed
+      this.windEffectProvider.setMaxSpeed(this.maxSpeed);
+      this.windEffectProvider.setMinSpeed(this.minSpeed);
     });
     this.windEffectProvider.setCurrentSpeed(this.speed);
     this.directionSubscription = this.windEffectProvider.directionObservable$.subscribe((dir: string) => {

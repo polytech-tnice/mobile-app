@@ -4,6 +4,7 @@ import { WindEffectProvider } from '../../providers/wind-effect/wind-effect';
 import { Subscription } from 'rxjs/Subscription';
 import { DirectionUtil } from '../../_models/direction-util';
 import { Point, PointUtil } from '../../_models/geometry/point';
+import { ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the CompassComponent component.
@@ -35,8 +36,8 @@ export class CompassComponent implements OnInit, OnDestroy {
 
   private directionSubscription: Subscription;
 
-  constructor(private windEffectProvider: WindEffectProvider) {
-    
+  constructor(private windEffectProvider: WindEffectProvider, private toastCtrl: ToastController) {
+
   }
 
   ngOnDestroy() {
@@ -44,8 +45,8 @@ export class CompassComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.directionSubscription = this.windEffectProvider.directionObservable$.subscribe((dir: string) => {
-      this.direction = DirectionUtil.direction(dir);
+    this.directionSubscription = this.windEffectProvider.directionObservable$.subscribe((res: string) => {
+      this.direction = DirectionUtil.direction(res);
     });
     this.touchzone = document.getElementById("compass");
     this.touchzone.addEventListener("touchstart", (event: any) => {
@@ -57,8 +58,19 @@ export class CompassComponent implements OnInit, OnDestroy {
       this.origin = new Point(this.xOrigin, this.yOrigin);
       this.destination = new Point(this.xDestination, this.yDestination);
       const dir: Direction = PointUtil.computeDirection(this.origin, this.destination);
-      this.direction = dir;
-      this.windEffectProvider.feedDirectionSubject(DirectionUtil.directionLabel(this.direction));
+      
+      const disabledDir = this.windEffectProvider.getDisabledDir();
+      if (dir === DirectionUtil.direction(disabledDir)) {
+        const successMsgToast = this.toastCtrl.create({
+          message: `Vous ne pouvez pas changer de direction si brusquement !`,
+          duration: 1500,
+        });
+        successMsgToast.present();
+      } else {
+        this.direction = dir;
+        this.windEffectProvider.feedDirectionSubject(DirectionUtil.directionLabel(this.direction));
+      }
+      
     }, false);
     this.touchzone.addEventListener("touchmove", (event: any) => {
       event.preventDefault();
