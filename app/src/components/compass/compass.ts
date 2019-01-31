@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Direction } from '../../_models/direction';
 import { WindEffectProvider } from '../../providers/wind-effect/wind-effect';
 import { Subscription } from 'rxjs/Subscription';
@@ -32,7 +32,7 @@ export class CompassComponent implements OnInit, OnDestroy {
   //private direction: Direction;
   public label: string;
 
-  public direction: Direction;
+  @Input() direction: Direction;
 
   private directionSubscription: Subscription;
 

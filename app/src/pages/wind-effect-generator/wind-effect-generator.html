@@ -14,7 +14,67 @@
 
 
 <ion-content padding>
-  <ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <h1>Création du vent</h1>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngIf="isHelpDisplayed">
+          <ion-col>
+            <h2>Besoin d'aide?</h2>
+            <p>Pour faire des effets de vent vous devez utiliser la boussole ainsi que le manche à air. Pour la boussole,
+              swipez vers la direction que vous souhaiter pour le vent. Pour le manche à air, swipez vers la droite
+              pour augmenter la vitesse et vers la gauche pour la diminuer. A vous de jouer !</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!isHelpDisplayed">
+          <ion-col>
+            <ion-segment (ionChange)="segmentChanged($event)">
+              <ion-segment-button value="compass">
+                <ion-label>Boussole</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="windsock">
+                <ion-label>Manche à air</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-col>
+        </ion-row>
+        <ion-row  *ngIf="isWindsockDisplayed && !isHelpDisplayed">
+          <ion-col>
+            <windsock></windsock>
+          </ion-col>
+          <ion-col>
+            <span class="speed"><span class="speed-value">{{speed}}</span> km/h</span>
+          </ion-col>
+        </ion-row>
+        <ion-row  *ngIf="isCompassDisplayed && !isHelpDisplayed">
+          <ion-col>
+            <compass [direction]="getDirection()"></compass>
+          </ion-col>
+          <ion-col>
+            <span class="direction">{{direction}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <button ion-button color="primary" clear (click)="back()">Retour</button>
+          </ion-col>
+          <ion-col>
+            <button ion-button color="primary" clear [disabled]="direction === ''" (click)="submit()">Envoi</button>
+          </ion-col>
+          <ion-col>
+            <button ion-button color="secondary" clear (click)="isHelpDisplayed = !isHelpDisplayed" *ngIf="!isHelpDisplayed">Aide</button>
+            <button ion-button color="secondary" clear (click)="isHelpDisplayed = !isHelpDisplayed" *ngIf="isHelpDisplayed">Go!</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+  </ion-card>
+  <!--<ion-grid>
     <ion-row justify-content-start>
       <ion-col>
         <windsock></windsock>
@@ -36,5 +96,5 @@
     <ion-row>
       <button ion-button block [disabled]="direction === ''" (click)="submit()">Envoyer</button>
     </ion-row>
-  </ion-grid>
+  </ion-grid>-->
 </ion-content>

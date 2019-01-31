@@ -41,6 +41,9 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
   maxSpeed: number;
   minSpeed: number;
   disabledDirection: string;
+  isHelpDisplayed: boolean;
+  isCompassDisplayed: boolean;
+  isWindsockDisplayed: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, 
     private http: HttpClient, private windEffectProvider: WindEffectProvider) {
@@ -55,9 +58,14 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
     this.game = Converter.convertToGame(this.navParams.get('game'));
     this.speed = 0;
     this.direction = '';
+    this.isHelpDisplayed = false;
+    this.isCompassDisplayed = false;
+    this.isWindsockDisplayed = false;
     this.initializeDirectionsArray();
     this.socket.on('actionHasBeenAdded', () => this.successCallback());
+
     this.socket.on('stopActionCreation', () => this.navCtrl.pop());
+    
     this.lastActionSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/last_executed_action`).subscribe((obj: any) => {
       const DEFAULT_MAX_SPEED = 100;
       const DEFAULT_MIN_SPEED = 0;
@@ -131,6 +139,30 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
     });
     successMsgToast.present();
     this.navCtrl.pop();
+  }
+
+  segmentChanged(ev: any) {
+    console.log(ev.value);
+    switch (ev.value) {
+      case 'compass':
+        this.isCompassDisplayed = true;
+        this.isWindsockDisplayed = false;
+        break;
+      case 'windsock':
+        this.isCompassDisplayed = false;
+        this.isWindsockDisplayed = true;
+        break;
+      default:
+        break;
+    }
+  }
+
+  back() {
+    this.navCtrl.pop();
+  }
+
+  getDirection(): Direction {
+    return DirectionUtil.direction(this.direction);
   }
 
 }
