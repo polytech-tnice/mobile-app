@@ -142,7 +142,6 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
   }
 
   segmentChanged(ev: any) {
-    console.log(ev.value);
     switch (ev.value) {
       case 'compass':
         this.isCompassDisplayed = true;

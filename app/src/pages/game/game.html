@@ -15,12 +15,12 @@
 
 <ion-content padding *ngIf="game" class="card-background-page">
   <action-step-visualizer [socket]="socket" [game_name]="game.name"></action-step-visualizer> 
-  <div class="action-cards">
+  <div class="action-cards" *ngIf="game.actionPhase === 0">
     <ion-card (click)="navigateToWindEffectGeneratorPage(game)">
       <img src="../../assets/imgs/weather.jpg" />
-      <div class="card-title">Effets météo (vent)</div>
+      <div class="card-title action">Effets météo (vent)</div>
     </ion-card>
   </div>
   <span *ngIf="game.actionPhase === 3" (click)="startActionPhase()">Simuler la fin d'un point...</span>
-  <action-list [game]="game" [socket]="socket"></action-list>
+  <action-list *ngIf="game.actionPhase === 1" [game]="game" [socket]="socket"></action-list>
 </ion-content>

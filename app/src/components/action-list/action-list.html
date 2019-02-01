@@ -1,5 +1,5 @@
 <div *ngIf="actions && actions.length > 0">
-  <h1>Actions</h1>
+  <!--<h1>Actions</h1>
   <ion-item-group>
     <ion-item-divider color="light">Effets de vent</ion-item-divider>
     <ion-item *ngFor="let action of actions">
@@ -16,5 +16,27 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-  </ion-item-group>
+  </ion-item-group>-->
+  <!--<ng-container *ngFor="let action of actions">
+    <action-visualizer (click)="vote(action)" [action]="action" title="Action de vent"></action-visualizer>
+  </ng-container>-->
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <action-visualizer [action]="displayedAction" title="Action de vent" (click)="vote(displayedAction)"></action-visualizer>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="primary" clear (click)="getPrevAction()">
+          Action précédente
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="primary" clear (click)="getNextAction()">
+          Action suivante
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

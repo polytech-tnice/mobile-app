@@ -4,17 +4,20 @@ import { ActionStepVisualizerComponent } from './action-step-visualizer/action-s
 import { WindsockComponent } from './windsock/windsock';
 import { CompassComponent } from './compass/compass';
 import { TactileWindGeneratorComponent } from './tactile-wind-generator/tactile-wind-generator';
+import { ActionVisualizerComponent } from './action-visualizer/action-visualizer';
 @NgModule({
 	declarations: [ActionListComponent,
     ActionStepVisualizerComponent,
     WindsockComponent,
     CompassComponent,
-    TactileWindGeneratorComponent],
+    TactileWindGeneratorComponent,
+    ActionVisualizerComponent],
 	imports: [],
 	exports: [ActionListComponent,
     ActionStepVisualizerComponent,
     WindsockComponent,
     CompassComponent,
-    TactileWindGeneratorComponent]
+    TactileWindGeneratorComponent,
+    ActionVisualizerComponent]
 })
 export class ComponentsModule {}

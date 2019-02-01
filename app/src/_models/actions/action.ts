@@ -1,7 +1,7 @@
 import { ActionType } from "./action-type";
 
 export abstract class Action {
-    constructor(protected type: ActionType, protected creator: string) {}
+    constructor(protected type: ActionType, protected creator: string, protected voteCount: number) {}
 
     public getTypeAsString(): string {
         switch (this.type) {

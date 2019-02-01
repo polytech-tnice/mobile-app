@@ -27,6 +27,8 @@ export class ActionListComponent implements OnInit, OnDestroy {
 
   private voteSubscription: Subscription;
   private actionListSubscription: Subscription;
+  public displayedAction: Action;
+  public displayedActionIndex: number;
   
 
   constructor(private http: HttpClient, public toastCtrl: ToastController) {
@@ -39,14 +41,26 @@ export class ActionListComponent implements OnInit, OnDestroy {
       obj.actions.forEach((data: any) => {
         this.actions.push(Converter.convertToAction(data));
       });
+      if (this.actions.length > 0) {
+        this.displayedActionIndex = 0;
+        this.displayedAction = this.actions[this.displayedActionIndex];
+      } 
     });
 
     this.socket.on('actionAddedSuccessfully', (obj: any) => {
       const action: Action = Converter.convertToAction(obj.action);
       this.actions.push(action);
+      if (this.actions.length > 0) {
+        this.displayedActionIndex = 0;
+        this.displayedAction = this.actions[this.displayedActionIndex];
+      } 
+      
     });
 
     this.socket.on('clearActionList', () => this.actions.length = 0);
+
+    console.log(this.actions);
+    
   }
 
   ngOnDestroy() {
@@ -71,5 +85,19 @@ export class ActionListComponent implements OnInit, OnDestroy {
     });
     toast.present();
   }
+
+
+  getPrevAction(): void {
+    const prevIndex = this.displayedActionIndex - 1;
+    this.displayedActionIndex = (prevIndex < 0) ? this.actions.length - 1 : this.displayedActionIndex - 1;
+    this.displayedAction = this.actions[this.displayedActionIndex];
+  }
+
+  getNextAction() {
+    const nextIndex = this.displayedActionIndex + 1;
+    this.displayedActionIndex = (nextIndex > this.actions.length - 1) ? 0 : this.displayedActionIndex + 1;
+    this.displayedAction = this.actions[this.displayedActionIndex];
+  }
+  
 
 }

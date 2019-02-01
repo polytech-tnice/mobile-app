@@ -52,7 +52,8 @@ export class Converter {
         const creator: string = x.creatorID;
         const speed: number = x.speed;
         const direction: string = x.direction;
-        return new WindAction(creator, speed, direction);
+        const voteCount: number = x.voteCount;
+        return new WindAction(creator, voteCount, speed, direction);
     }
 
     public convertActionTypeToString(type: ActionType): string {

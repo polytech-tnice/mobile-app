@@ -1,0 +1,24 @@
+<ion-card>
+  <ion-badge class="number-of-votes-badge" color="tertiary">Nombre de votes: {{action.voteCount}}</ion-badge>
+  <ion-card-header>
+    <ion-card-title>{{title}}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-chip>
+            <ion-label class="label-param">{{action.direction}}</ion-label>
+          </ion-chip>
+        </ion-col>
+        <ion-col>
+          <ion-chip>
+            <ion-label class="label-param">{{action.speed}} Km/h</ion-label>
+          </ion-chip>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+  </ion-card-content>
+</ion-card>
