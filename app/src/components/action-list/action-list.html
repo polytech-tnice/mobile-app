@@ -1,5 +1,4 @@
-<div *ngIf="actions && actions.length > 0">
-  <!--<h1>Actions</h1>
+<!--<h1>Actions</h1>
   <ion-item-group>
     <ion-item-divider color="light">Effets de vent</ion-item-divider>
     <ion-item *ngFor="let action of actions">
@@ -17,26 +16,35 @@
       </ion-grid>
     </ion-item>
   </ion-item-group>-->
-  <!--<ng-container *ngFor="let action of actions">
+<!--<ng-container *ngFor="let action of actions">
     <action-visualizer (click)="vote(action)" [action]="action" title="Action de vent"></action-visualizer>
   </ng-container>-->
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <action-visualizer [action]="displayedAction" title="Action de vent" (click)="vote(displayedAction)"></action-visualizer>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <button ion-button color="primary" clear (click)="getPrevAction()">
-          Action précédente
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button color="primary" clear (click)="getNextAction()">
-          Action suivante
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+<ion-grid>
+  <ion-row>
+    <ion-col *ngIf="actions && actions.length > 0">
+      <action-visualizer #action draggable id="theid" [action]="displayedAction" title="Action de vent" [socketID]="socket.ioSocket.id" (click)="vote(displayedAction)"
+        (actionDropped)="moveActionInBox($event)" (swipeRightEvent)="getNextAction()" (swipeLeftEvent)="getPrevAction()"></action-visualizer>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div id="container-for-votes">
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngIf="hasDropVote" xs8>
+              <img src="../../assets/imgs/vote.png" id="vote-img">
+              <button ion-button class="delete-btn" clear color="dark" (click)="cancelVote()">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col *ngIf="!hasDropVote">
+              <h2 class="drop-h1">Déposez votre vote dans cette boite!</h2>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -6,7 +6,7 @@ export class ActionStepHelper {
     public static duration(step: ActionPhaseEnum) {
         switch (step) {
             case ActionPhaseEnum.CREATION: return 20;
-            case ActionPhaseEnum.VOTE: return 5;
+            case ActionPhaseEnum.VOTE: return 10;
             case ActionPhaseEnum.RESULTS: return 5;
             case ActionPhaseEnum.WAITING: return -1;
         }

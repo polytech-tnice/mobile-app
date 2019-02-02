@@ -1,11 +1,17 @@
-<ion-card>
+<ion-card id="thecard">
   <ion-badge class="number-of-votes-badge" color="tertiary">Nombre de votes: {{action.voteCount}}</ion-badge>
   <ion-card-header>
     <ion-card-title>{{title}}</ion-card-title>
   </ion-card-header>
-
+  <hr>
   <ion-card-content>
     <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-icon class="warn-message" *ngIf="socketID === action.getCreator()" name="warning">Vous êtes le créateur
+            de cette action !</ion-icon>
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col>
           <ion-chip>
@@ -19,6 +25,6 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    
+
   </ion-card-content>
 </ion-card>
