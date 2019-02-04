@@ -19,6 +19,7 @@ import { WindEffectProvider } from '../providers/wind-effect/wind-effect';
 import { CompassComponent } from '../components/compass/compass';
 import { TactileWindGeneratorComponent } from '../components/tactile-wind-generator/tactile-wind-generator';
 import { ActionVisualizerComponent } from '../components/action-visualizer/action-visualizer';
+import { ResultScreenComponent } from '../components/result-screen/result-screen';
 
 const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
 
@@ -33,7 +34,8 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
     WindsockComponent,
     CompassComponent,
     TactileWindGeneratorComponent,
-    ActionVisualizerComponent
+    ActionVisualizerComponent,
+    ResultScreenComponent
   ],
   imports: [
     BrowserModule,

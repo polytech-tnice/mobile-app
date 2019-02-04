@@ -6,15 +6,16 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Game</ion-title>
+  <!--*ngIf="game && game.actionPhase !== 2"-->
+  <ion-navbar >
+    <ion-title>T-Nice</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
-<ion-content padding *ngIf="game" class="card-background-page">
-  <action-step-visualizer [socket]="socket" [game_name]="game.name"></action-step-visualizer> 
+<!--[class.black-background]="game.actionPhase === 2" class="card-background-page"-->
+<ion-content padding *ngIf="game"  [ngClass]="(game.actionPhase === 2)?'black-background':'card-background-page'" >
+  <action-step-visualizer *ngIf="game.actionPhase !== 2" [socket]="socket" [game_name]="game.name"></action-step-visualizer> 
   <div class="action-cards" *ngIf="game.actionPhase === 0">
     <ion-card (click)="navigateToWindEffectGeneratorPage(game)">
       <img src="../../assets/imgs/weather.jpg" />
@@ -22,5 +23,6 @@
     </ion-card>
   </div>
   <span *ngIf="game.actionPhase === 3" (click)="startActionPhase()">Simuler la fin d'un point...</span>
+  <result-screen *ngIf="game.actionPhase === 2" [action]="actionThatWon"></result-screen>
   <action-list *ngIf="game.actionPhase === 1" [game]="game" [socket]="socket"></action-list>
 </ion-content>

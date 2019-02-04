@@ -16,6 +16,7 @@ export class ActionVisualizerComponent implements OnInit {
   @Input() action: Action;
   @Input() title: string;
   @Input() socketID: any;
+  @Input() displayVoteCount: boolean;
 
   @Output() actionDropped = new EventEmitter();
   @Output() swipeRightEvent = new EventEmitter();
@@ -31,7 +32,6 @@ export class ActionVisualizerComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.action.getCreator())
     this.thecardelement = document.getElementById('thecard');
     this.thecardelement.addEventListener('touchstart', (ev) => {
       ev.preventDefault();

@@ -9,6 +9,7 @@ import { GameStateEnum } from '../../_models/gameState';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { env } from '../../app/environment';
+import { Action } from '../../_models/actions/action';
 
 @IonicPage()
 @Component({
@@ -20,6 +21,8 @@ export class GamePage implements OnDestroy {
   private game: Game;
   private socket: Socket;
   private subscription: Subscription;
+
+  public actionThatWon: Action;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient) {
   }
@@ -45,8 +48,9 @@ export class GamePage implements OnDestroy {
     this.socket.on('updateGameState', (obj: any) => this.game.status = Converter.convertToGameStateEnum(obj.state));
 
     this.socket.on('resultOfVoteEvent', (obj: any) => {
-      this.game.lastExecutedAction = Converter.convertToAction(obj.action);
-      this.presentToast(`Action pour le prochain point: vent - ${obj.action.direction} - ${obj.action.speed}km/h`);
+      this.actionThatWon = Converter.convertToAction(obj.action);
+      this.game.lastExecutedAction = this.actionThatWon;
+      //this.presentToast(`Action pour le prochain point: vent - ${obj.action.direction} - ${obj.action.speed}km/h`);
     });
 
     this.socket.on('fail_resultOfVoteEvent', () => {

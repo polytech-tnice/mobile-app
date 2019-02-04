@@ -1,5 +1,5 @@
 <ion-card id="thecard">
-  <ion-badge class="number-of-votes-badge" color="tertiary">Nombre de votes: {{action.voteCount}}</ion-badge>
+  <ion-badge *ngIf="displayVoteCount" class="number-of-votes-badge" color="tertiary">Nombre de votes: {{action.voteCount}}</ion-badge>
   <ion-card-header>
     <ion-card-title>{{title}}</ion-card-title>
   </ion-card-header>
