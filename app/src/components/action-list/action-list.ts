@@ -76,26 +76,29 @@ export class ActionListComponent implements OnInit, OnDestroy {
     this.socket.on('clearActionList', () => this.actions.length = 0);
 
     this.hasDropVote = false;
-    this.boxDOMElement = document.getElementById('container-for-votes');
-    this.boxDOMElement.addEventListener("touchstart", () => {
-      if (this.clickTimer == null) {
-        this.clickTimer = setTimeout(function () {
-          this.clickTimer = null;
-          // Single tap ...
-          // IDEA display message to have informations on the current vote
-
-        }, 500)
-      } else {
-        clearTimeout(this.clickTimer);
-        this.clickTimer = null;
-        // Double tap
-        if (this.droppedAction === null) {
-          this.presentToast(`Pas de vote dans l'urne...`)
+    if (this.actions.length > 0) {
+      this.boxDOMElement = document.getElementById('container-for-votes');
+      this.boxDOMElement.addEventListener("touchstart", () => {
+        if (this.clickTimer == null) {
+          this.clickTimer = setTimeout(function () {
+            this.clickTimer = null;
+            // Single tap ...
+            // IDEA display message to have informations on the current vote
+  
+          }, 500)
         } else {
-          this.vote(this.droppedAction);
+          clearTimeout(this.clickTimer);
+          this.clickTimer = null;
+          // Double tap
+          if (this.droppedAction === null) {
+            this.presentToast(`Pas de vote dans l'urne...`)
+          } else {
+            this.vote(this.droppedAction);
+          }
         }
-      }
-    });
+      });
+    }
+    
 
   }
 

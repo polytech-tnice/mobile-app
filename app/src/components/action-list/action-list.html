@@ -1,24 +1,3 @@
-<!--<h1>Actions</h1>
-  <ion-item-group>
-    <ion-item-divider color="light">Effets de vent</ion-item-divider>
-    <ion-item *ngFor="let action of actions">
-      <ion-grid>
-        <ion-row>
-          <ion-col col-8>
-            <h2>Action de vent</h2>
-            <h3>Vitesse: {{action.getSpeed()}} km/h</h3>
-            <h3>Direction: {{action.getDirection()}}</h3>
-          </ion-col>
-          <ion-col col-4>
-            <button ion-button (click)="vote(action)" [disabled]="!canVote()">Voter</button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-item-group>-->
-<!--<ng-container *ngFor="let action of actions">
-    <action-visualizer (click)="vote(action)" [action]="action" title="Action de vent"></action-visualizer>
-  </ng-container>-->
 <ion-grid>
   <ion-row>
     <ion-col *ngIf="actions && actions.length > 0">
@@ -27,7 +6,7 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col>
+    <ion-col *ngIf="actions && actions.length > 0">
       <div id="container-for-votes">
         <ion-grid>
           <ion-row>
@@ -42,9 +21,12 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-
-
       </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <h2>Pas d'actions pour cette fois!</h2>
     </ion-col>
   </ion-row>
 </ion-grid>

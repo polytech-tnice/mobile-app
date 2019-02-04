@@ -6,6 +6,23 @@ h2.suspens-message {
   animation: fade 2s linear;
 }
 
+h2.suspens-message-ornot {
+  color: #fff;
+  margin-top: 50%; 
+  text-align: center;
+  opacity: 0;
+  animation: fadein 5s linear;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fade {
 
   100% {
