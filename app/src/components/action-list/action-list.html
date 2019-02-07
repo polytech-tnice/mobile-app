@@ -6,8 +6,8 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col *ngIf="actions && actions.length > 0">
-      <div id="container-for-votes">
+    <ion-col>
+      <div id="container-for-votes" [hidden]="!actions || actions.length === 0">
         <ion-grid>
           <ion-row>
             <ion-col *ngIf="hasDropVote" xs8>
@@ -25,7 +25,7 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col>
+    <ion-col *ngIf="!actions || actions.length === 0">
       <h2>Pas d'actions pour cette fois!</h2>
     </ion-col>
   </ion-row>

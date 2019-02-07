@@ -55,7 +55,8 @@ export class GamePage implements OnDestroy {
 
     this.socket.on('fail_resultOfVoteEvent', () => {
       this.game.lastExecutedAction = null;
-      this.presentToast(`Aucune action pour cette fois... `);
+      this.actionThatWon = null;
+      //this.presentToast(`Aucune action pour cette fois... `);
     });
   }
 
