@@ -1,0 +1,31 @@
+fun-facts {
+  p {
+    text-align: justify;
+    margin-bottom: 18px;
+  }
+  .fun-facts-title {
+    padding: 0;
+    margin: 8px;
+  }
+  h1 {
+    color: black;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 32px;
+  }
+  .card-header {
+    background-color: cornflowerblue;
+    border: solid;
+    border-color: darkblue;
+    padding: 0;
+  }
+  .card-content {
+    margin-top: 12px;
+  }
+  .button {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    margin-left: 25%;
+  }
+}
