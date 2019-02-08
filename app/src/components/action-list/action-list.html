@@ -1,9 +1,10 @@
 <ion-grid>
   <ion-row>
-    <ion-col *ngIf="actions && actions.length > 0">
-      <action-visualizer #action draggable id="theid" [action]="displayedAction" title="Action de vent" [socketID]="socket.ioSocket.id" (click)="vote(displayedAction)"
-        (actionDropped)="moveActionInBox($event)" (swipeRightEvent)="getNextAction()" (swipeLeftEvent)="getPrevAction()"></action-visualizer>
-    </ion-col>
+    <ion-slides>
+      <ion-slide *ngFor="let action of actions" style="width: 100%"> 
+        <action-visualizer id="theid" [action]="action" title="Action de vent" [socketID]="socket.ioSocket.id" (actionDropped)="moveActionInBox($event)"></action-visualizer>
+      </ion-slide>
+    </ion-slides>
   </ion-row>
   <ion-row>
     <ion-col>
@@ -11,7 +12,8 @@
         <ion-grid>
           <ion-row>
             <ion-col *ngIf="hasDropVote" xs8>
-              <img src="../../assets/imgs/vote.png" id="vote-img">
+              <img *ngIf="!hasVoted" src="../../assets/imgs/vote.png" id="vote-img">
+              <img *ngIf="hasVoted" src="../../assets/imgs/hasVoted.PNG" id="vote-img">
               <button ion-button class="delete-btn" clear color="dark" (click)="cancelVote()">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </button>
@@ -26,7 +28,7 @@
   </ion-row>
   <ion-row>
     <ion-col *ngIf="!actions || actions.length === 0">
-      <h2>Pas d'actions pour cette fois!</h2>
+      <h2 class="no-action">Pas d'action pour cette fois!</h2>
     </ion-col>
   </ion-row>
 </ion-grid>

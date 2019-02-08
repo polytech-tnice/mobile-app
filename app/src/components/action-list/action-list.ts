@@ -34,6 +34,7 @@ export class ActionListComponent implements OnInit, OnDestroy {
   public displayedActionIndex: number;
 
   public hasDropVote: boolean;
+  public hasVoted: boolean;
 
   private boxDOMElement: any;
   private clickTimer = null;
@@ -46,12 +47,18 @@ export class ActionListComponent implements OnInit, OnDestroy {
     x_max: 335
   }
 
+  slideOpts = {
+    effect: 'flip'
+  };
+
 
   constructor(private http: HttpClient, public toastCtrl: ToastController) {
 
   }
 
   ngOnInit() {
+
+    this.hasVoted = false;
 
     this.displayedAction = null;
 
@@ -111,6 +118,7 @@ export class ActionListComponent implements OnInit, OnDestroy {
   vote(action: Action): void {
     this.voteSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/vote/action/${action.getCreator()}/user/${this.socket.ioSocket.id}`).subscribe((obj: any) => {
       this.presentToast(obj.desc);
+      this.hasVoted = true;
     });
   }
 
@@ -126,20 +134,8 @@ export class ActionListComponent implements OnInit, OnDestroy {
     toast.present();
   }
 
-
-  getPrevAction(): void {
-    const prevIndex = this.displayedActionIndex - 1;
-    this.displayedActionIndex = (prevIndex < 0) ? this.actions.length - 1 : this.displayedActionIndex - 1;
-    this.displayedAction = this.actions[this.displayedActionIndex];
-  }
-
-  getNextAction() {
-    const nextIndex = this.displayedActionIndex + 1;
-    this.displayedActionIndex = (nextIndex > this.actions.length - 1) ? 0 : this.displayedActionIndex + 1;
-    this.displayedAction = this.actions[this.displayedActionIndex];
-  }
-
   moveActionInBox(ev) {
+    if (this.hasVoted) return;
     if (this.canDropVote(ev)) {
       this.hasDropVote = true;
       this.droppedAction = this.displayedAction;

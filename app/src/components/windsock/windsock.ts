@@ -106,9 +106,9 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
   private updateCanvas(speed: number): void {
     if (speed >= 0 && speed < 10) {
       this.closeToZeroWindsock();
-    } else if (speed >= 10 && speed < 35) {
+    } else if (speed >= 10 && speed < 20) {
       this.weakWindsock();
-    } else if (speed >= 35 && speed < 70) {
+    } else if (speed >= 20 && speed < 35) {
       this.lowerWindsock();
     } else {
       this.upperWindsock();

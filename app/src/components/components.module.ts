@@ -6,7 +6,6 @@ import { CompassComponent } from './compass/compass';
 import { TactileWindGeneratorComponent } from './tactile-wind-generator/tactile-wind-generator';
 import { ActionVisualizerComponent } from './action-visualizer/action-visualizer';
 import { ResultScreenComponent } from './result-screen/result-screen';
-import { FunFactComponent } from './fun-fact/fun-fact';
 import { FunFactsComponent } from './fun-facts/fun-facts';
 @NgModule({
 	declarations: [ActionListComponent,
@@ -16,7 +15,6 @@ import { FunFactsComponent } from './fun-facts/fun-facts';
     TactileWindGeneratorComponent,
     ActionVisualizerComponent,
     ResultScreenComponent,
-    FunFactComponent,
     FunFactsComponent],
 	imports: [],
 	exports: [ActionListComponent,
@@ -26,7 +24,6 @@ import { FunFactsComponent } from './fun-facts/fun-facts';
     TactileWindGeneratorComponent,
     ActionVisualizerComponent,
     ResultScreenComponent,
-    FunFactComponent,
     FunFactsComponent]
 })
 export class ComponentsModule {}

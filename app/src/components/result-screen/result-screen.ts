@@ -15,11 +15,7 @@ export class ResultScreenComponent {
 
   @Input() action: Action;
 
-  text: string;
-
   constructor() {
-    console.log('Hello ResultScreenComponent Component');
-    this.text = 'Hello World';
   }
 
 }

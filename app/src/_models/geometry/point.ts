@@ -18,7 +18,7 @@ export class Point {
 
 export class PointUtil {
 
-    private static SPEED_TICK: number = 10;
+    private static SPEED_TICK: number = 5;
 
     /**
      * Compute the direction between 2 points.

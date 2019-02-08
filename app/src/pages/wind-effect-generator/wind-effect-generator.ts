@@ -67,14 +67,14 @@ export class WindEffectGeneratorPage implements OnInit, OnDestroy {
     this.socket.on('stopActionCreation', () => this.navCtrl.pop());
     
     this.lastActionSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/last_executed_action`).subscribe((obj: any) => {
-      const DEFAULT_MAX_SPEED = 100;
+      const DEFAULT_MAX_SPEED = 50;
       const DEFAULT_MIN_SPEED = 0;
       if (obj.lastExecutedAction) {
-        const DELTA: number = 20; 
+        const DELTA: number = 10; 
         const min: number = obj.lastExecutedAction.speed - DELTA;
         const max: number = obj.lastExecutedAction.speed + DELTA;
         this.minSpeed = (min < 0) ? 0 : min;
-        this.maxSpeed = (max > 100) ? 100 : max;
+        this.maxSpeed = (max > DEFAULT_MAX_SPEED) ? DEFAULT_MAX_SPEED : max;
         this.disabledDirection = DirectionUtil.directionLabel(DirectionUtil.opposite(DirectionUtil.direction(obj.lastExecutedAction.direction)));
         // Initialize the default speed with the one given at the last action
         this.windEffectProvider.feedSpeedSubject(obj.lastExecutedAction.speed);
