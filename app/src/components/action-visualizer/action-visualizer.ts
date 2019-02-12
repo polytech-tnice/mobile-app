@@ -39,7 +39,7 @@ export class ActionVisualizerComponent implements OnInit {
     this.thecardelement.addEventListener("touchend", () => {
       const deltaX = this.lastX - this.startX;
       const deltaY = this.lastY - this.startY;
-      if (deltaX < deltaY) this.actionDropped.emit({x: this.lastX, y: this.lastY})
+      if (deltaX < deltaY) this.actionDropped.emit({x: this.lastX, y: this.lastY, action: this.action})
     }, false);
     this.thecardelement.addEventListener("touchcancel", () => console.log('touchcancel'), false);
     this.thecardelement.addEventListener("touchleave", () => console.log('touchleave'), false);

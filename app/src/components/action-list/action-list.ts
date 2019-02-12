@@ -29,15 +29,13 @@ export class ActionListComponent implements OnInit, OnDestroy {
 
   private voteSubscription: Subscription;
   private actionListSubscription: Subscription;
-  public displayedAction: Action;
-  private droppedAction: Action = null;
-  public displayedActionIndex: number;
 
   public hasDropVote: boolean;
   public hasVoted: boolean;
 
   private boxDOMElement: any;
   private clickTimer = null;
+  private droppedAction: Action = null;
 
   // MVP - mock the area of the vote box with config JSON
   private box: any = {
@@ -60,33 +58,21 @@ export class ActionListComponent implements OnInit, OnDestroy {
 
     this.hasVoted = false;
 
-    this.displayedAction = null;
-
     this.actionListSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/actions`).subscribe((obj: any) => {
       obj.actions.forEach((data: any) => {
         this.actions.push(Converter.convertToAction(data));
       });
-      if (this.actions.length > 0) {
-        this.displayedActionIndex = 0;
-        this.displayedAction = this.actions[this.displayedActionIndex];
-      }
     });
 
     this.socket.on('actionAddedSuccessfully', (obj: any) => {
       const action: Action = Converter.convertToAction(obj.action);
       this.actions.push(action);
-      if (this.actions.length > 0) {
-        this.displayedActionIndex = 0;
-        this.displayedAction = this.actions[this.displayedActionIndex];
-      }
-
     });
 
     this.socket.on('clearActionList', () => this.actions.length = 0);
 
     this.hasDropVote = false;
     this.boxDOMElement = document.getElementById('container-for-votes');
-    //if (!this.displayedAction) this.boxDOMElement.style.visibility = 'hidden';
     this.boxDOMElement.addEventListener("touchstart", () => {
       if (this.clickTimer == null) {
         this.clickTimer = setTimeout(function () {
@@ -99,7 +85,7 @@ export class ActionListComponent implements OnInit, OnDestroy {
         clearTimeout(this.clickTimer);
         this.clickTimer = null;
         // Double tap
-        if (this.droppedAction === null) {
+        if (!this.hasDropVote) {
           this.presentToast(`Pas de vote dans l'urne...`)
         } else {
           this.vote(this.droppedAction);
@@ -118,7 +104,12 @@ export class ActionListComponent implements OnInit, OnDestroy {
   vote(action: Action): void {
     this.voteSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/vote/action/${action.getCreator()}/user/${this.socket.ioSocket.id}`).subscribe((obj: any) => {
       this.presentToast(obj.desc);
-      this.hasVoted = true;
+      if (obj.code === 403) {
+        this.hasDropVote = false;
+        this.hasVoted = false;
+      } else {
+        this.hasVoted = true;
+      }
     });
   }
 
@@ -135,10 +126,12 @@ export class ActionListComponent implements OnInit, OnDestroy {
   }
 
   moveActionInBox(ev) {
+    console.log(ev);
     if (this.hasVoted) return;
     if (this.canDropVote(ev)) {
       this.hasDropVote = true;
-      this.droppedAction = this.displayedAction;
+      this.droppedAction = ev.action;
+      console.log(this.droppedAction)
       this.presentToast('Votre vote a bien été déposé, double-tap dans le rectangle noir pour confirmer le vote !');
     } else {
       this.presentToast('Vous devez déposer le vote dans le rectangle noir !');

@@ -43,15 +43,16 @@ export class PointUtil {
 
     }
 
-    public static computeSpeed(origin: Point, destination: Point): number {
+    // the multiplier depends on the number of fingers that tapped the screen
+    public static computeSpeed(origin: Point, destination: Point, multiplier: number): number {
         const deltaX = destination.getX() - origin.getX();
         const deltaY = destination.getY() - origin.getY();
         if (deltaX > 0) {
             // Swipe vers la droite, on ajoute de la vitesse
-            return this.SPEED_TICK;
+            return this.SPEED_TICK * multiplier;
         } else {
             // Swipe vers la gauche, on retire de la vitesse
-            return -this.SPEED_TICK;
+            return -this.SPEED_TICK * multiplier;
         }
     }
 

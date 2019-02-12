@@ -17,7 +17,6 @@ import { ActionStepVisualizerComponent } from '../components/action-step-visuali
 import { WindsockComponent } from '../components/windsock/windsock';
 import { WindEffectProvider } from '../providers/wind-effect/wind-effect';
 import { CompassComponent } from '../components/compass/compass';
-import { TactileWindGeneratorComponent } from '../components/tactile-wind-generator/tactile-wind-generator';
 import { ActionVisualizerComponent } from '../components/action-visualizer/action-visualizer';
 import { ResultScreenComponent } from '../components/result-screen/result-screen';
 import { FunFactsComponent } from '../components/fun-facts/fun-facts';
@@ -34,7 +33,6 @@ const config: SocketIoConfig = { url: `${env.baseUrl}:${env.port}`, options: {}}
     ActionStepVisualizerComponent,
     WindsockComponent,
     CompassComponent,
-    TactileWindGeneratorComponent,
     ActionVisualizerComponent,
     ResultScreenComponent,
     FunFactsComponent

@@ -35,11 +35,14 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
   private xDestination: any;
   private yDestination: any;
 
+  private numberOfTouches: number = 0;
+
   constructor(private windEffectService: WindEffectProvider, private toastCtrl: ToastController) {
     
   }
 
   ngOnInit(): void {
+    this.numberOfTouches = 0;
     this.windSpeedSubscription = this.windEffectService.speedObservable$.subscribe((speed: number) => {
       this.speed = speed;
       this.updateCanvas(speed);
@@ -49,13 +52,14 @@ export class WindsockComponent implements AfterViewInit, OnInit, OnDestroy {
       event.preventDefault();
       this.xOrigin = event.touches[0].clientX;
       this.yOrigin = event.touches[0].clientY;
+      this.numberOfTouches = event.touches.length;
     }, false);
     this.touchzone.addEventListener("touchend", () => {
       this.origin = new Point(this.xOrigin, this.yOrigin);
       this.destination = new Point(this.xDestination, this.yDestination);
 
       // For the speed part... do swipes to the right to add wind, and to the left to remove wind (ex: 1 tick = 5km/h)
-      const speedDif: number = PointUtil.computeSpeed(this.origin, this.destination);
+      const speedDif: number = PointUtil.computeSpeed(this.origin, this.destination, this.numberOfTouches); 
       const currentSpeed = this.windEffectService.getCurrentSpeed();
       const minSpeed = this.windEffectService.getMinSpeed();
       const maxSpeed = this.windEffectService.getMaxSpeed();
