@@ -1,10 +1,16 @@
 <ion-grid>
-  <ion-row>
+  <!--<ion-row>
     <ion-slides>
-      <ion-slide *ngFor="let action of actions" style="width: 100%"> 
-        <action-visualizer id="theid" [action]="action" title="Action de vent" [socketID]="socket.ioSocket.id" (actionDropped)="moveActionInBox($event)"></action-visualizer>
+      <ion-slide style="width: 100%" *ngFor="let action of actions"> 
+          <action-visualizer id="theid" [action]="action" title="Action de vent" [socketID]="socket.ioSocket.id" (actionDropped)="moveActionInBox($event)"></action-visualizer>
       </ion-slide>
     </ion-slides>
+  </ion-row>-->
+  <ion-row>
+    <ion-col *ngIf="actions && actions.length > 0">
+      <action-visualizer #action draggable id="theid" [action]="displayedAction" title="Action de vent" [socketID]="socket.ioSocket.id"
+        (actionDropped)="moveActionInBox($event)" (swipeRightEvent)="getNextAction()" (swipeLeftEvent)="getPrevAction()"></action-visualizer>
+    </ion-col>
   </ion-row>
   <ion-row>
     <ion-col>

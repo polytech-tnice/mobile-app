@@ -37,6 +37,9 @@ export class ActionListComponent implements OnInit, OnDestroy {
   private clickTimer = null;
   private droppedAction: Action = null;
 
+  public displayedAction: Action;
+  public displayedActionIndex: number;
+
   // MVP - mock the area of the vote box with config JSON
   private box: any = {
     y_min: 415,
@@ -56,17 +59,27 @@ export class ActionListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.displayedAction = null;
+
     this.hasVoted = false;
 
     this.actionListSubscription = this.http.get(`${env.baseUrl}:${env.port}/api/game/${this.game.name}/actions`).subscribe((obj: any) => {
       obj.actions.forEach((data: any) => {
         this.actions.push(Converter.convertToAction(data));
       });
+      if (this.actions.length > 0) {
+        this.displayedActionIndex = 0;
+        this.displayedAction = this.actions[this.displayedActionIndex];
+      }
     });
 
     this.socket.on('actionAddedSuccessfully', (obj: any) => {
       const action: Action = Converter.convertToAction(obj.action);
       this.actions.push(action);
+      if (this.actions.length > 0) {
+        this.displayedActionIndex = 0;
+        this.displayedAction = this.actions[this.displayedActionIndex];
+      }
     });
 
     this.socket.on('clearActionList', () => this.actions.length = 0);
@@ -125,13 +138,29 @@ export class ActionListComponent implements OnInit, OnDestroy {
     toast.present();
   }
 
-  moveActionInBox(ev) {
-    console.log(ev);
+  getPrevAction(): void {
+    const prevIndex = this.displayedActionIndex - 1;
+    this.displayedActionIndex = (prevIndex < 0) ? this.actions.length - 1 : this.displayedActionIndex - 1;
+    this.displayedAction = this.actions[this.displayedActionIndex];
+  }
+
+  getNextAction() {
+    const nextIndex = this.displayedActionIndex + 1;
+    this.displayedActionIndex = (nextIndex > this.actions.length - 1) ? 0 : this.displayedActionIndex + 1;
+    this.displayedAction = this.actions[this.displayedActionIndex];
+  }
+
+  moveActionInBox(ev?: any) {
+    //if ((ev.action as Action).getCreator() === this.socket.ioSocket.id) {
+    if (this.displayedAction.getCreator() === this.socket.ioSocket.id) {
+      this.presentToast('Vous ne pouvez pas déposer votre action...')
+      return;
+    }
     if (this.hasVoted) return;
     if (this.canDropVote(ev)) {
       this.hasDropVote = true;
-      this.droppedAction = ev.action;
-      console.log(this.droppedAction)
+      this.droppedAction = this.displayedAction;
+      //this.droppedAction = ev.action;
       this.presentToast('Votre vote a bien été déposé, double-tap dans le rectangle noir pour confirmer le vote !');
     } else {
       this.presentToast('Vous devez déposer le vote dans le rectangle noir !');

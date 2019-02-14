@@ -19,6 +19,8 @@ export class ActionVisualizerComponent implements OnInit {
   @Input() displayVoteCount: boolean;
 
   @Output() actionDropped = new EventEmitter();
+  @Output() swipeRightEvent = new EventEmitter();
+  @Output() swipeLeftEvent = new EventEmitter();
 
   private thecardelement: any;
   private lastX: number;
@@ -30,7 +32,7 @@ export class ActionVisualizerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.thecardelement = document.getElementById('move-icon');
+    this.thecardelement = document.getElementById('card-header');
     this.thecardelement.addEventListener('touchstart', (ev) => {
       ev.preventDefault();
       this.startX = ev.touches[0].clientX;
@@ -39,7 +41,16 @@ export class ActionVisualizerComponent implements OnInit {
     this.thecardelement.addEventListener("touchend", () => {
       const deltaX = this.lastX - this.startX;
       const deltaY = this.lastY - this.startY;
-      if (deltaX < deltaY) this.actionDropped.emit({x: this.lastX, y: this.lastY, action: this.action})
+      //if (deltaX < deltaY) this.actionDropped.emit({x: this.lastX, y: this.lastY, action: this.action})
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX < 0) {
+          this.swipeLeftEvent.emit();
+        } else {
+          this.swipeRightEvent.emit();
+        }
+      } else {
+        this.actionDropped.emit({x: this.lastX, y: this.lastY})
+      }
     }, false);
     this.thecardelement.addEventListener("touchcancel", () => console.log('touchcancel'), false);
     this.thecardelement.addEventListener("touchleave", () => console.log('touchleave'), false);

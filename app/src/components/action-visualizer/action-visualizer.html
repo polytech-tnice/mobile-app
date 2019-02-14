@@ -1,7 +1,7 @@
 <ion-card id="thecard">
   <ion-badge *ngIf="displayVoteCount" class="number-of-votes-badge" color="tertiary">Nombre de votes: {{action.voteCount}}</ion-badge>
-  <ion-icon [hidden]="displayVoteCount" name="move" id="move-icon"></ion-icon>
-  <ion-card-header>
+  <!--<ion-icon [hidden]="displayVoteCount" name="move" id="move-icon"></ion-icon>-->
+  <ion-card-header id="card-header">
     <ion-card-title>{{title}}</ion-card-title>
   </ion-card-header>
   <hr>
