@@ -21,8 +21,6 @@ import { Converter } from '../../_helpers/Converter';
 })
 export class ActionListComponent implements OnInit, OnDestroy {
 
-  @ViewChild('action') actionComponent: ElementRef;
-
   actions: Action[] = [];
   @Input() game: Game;
   @Input() socket: Socket;

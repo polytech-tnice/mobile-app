@@ -16,7 +16,7 @@
   </div>
   <!-- Remove this button when it is possible to play a game -->
   <fun-facts *ngIf="game.actionPhase === 3"></fun-facts>
-  <button *ngIf="game.actionPhase === 3" (click)="startActionPhase()" ion-button outline style="width: 100%">Simuler la fin d'un point</button>
+  <!--<button *ngIf="game.actionPhase === 3" (click)="startActionPhase()" ion-button outline style="width: 100%">Simuler la fin d'un point</button>-->
   <result-screen *ngIf="game.actionPhase === 2" [action]="actionThatWon"></result-screen>
   <action-list *ngIf="game.actionPhase === 1" [game]="game" [socket]="socket"></action-list>
   
